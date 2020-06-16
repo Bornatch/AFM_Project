@@ -7,6 +7,8 @@ import { MatDividerModule, MatToolbarModule, MatIconModule, MatButtonModule, Mat
 import { FlexibleConnectedPositionStrategy } from '@angular/cdk/overlay';
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { RouterModule } from '@angular/router';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { QuotesHistoriesComponent } from './widgets/quotes-histories/quotes-histories.component';
 
 
 
@@ -14,7 +16,8 @@ import { RouterModule } from '@angular/router';
   declarations: [
     HeaderComponent,
     SidebarComponent,
-    FooterComponent
+    FooterComponent,
+    QuotesHistoriesComponent
   ],
   imports: [
     CommonModule,
@@ -25,12 +28,16 @@ import { RouterModule } from '@angular/router';
     FlexLayoutModule,
     MatMenuModule,
     MatListModule,
-    RouterModule 
+    RouterModule,
+    HighchartsChartModule
   ],
   exports: [
+    // shared
     HeaderComponent,
     SidebarComponent,
-    FooterComponent
+    FooterComponent,
+    // widgets
+    QuotesHistoriesComponent
   ]
 })
 export class SharedModule { }
