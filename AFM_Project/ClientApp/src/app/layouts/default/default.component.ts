@@ -3,19 +3,18 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-default',
   templateUrl: './default.component.html',
-  styleUrls: ['./default.component.css']
+  styleUrls: ['./default.component.scss']
 })
 export class DefaultComponent implements OnInit {
 
-  sideBarOpen = false;
+  sideBarOpen = true;
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
+
 
   sideBarToggler() {
-    this.sideBarOpen = !this.sideBarOpen
+    this.sideBarOpen = !this.sideBarOpen;
   }
-
 }
