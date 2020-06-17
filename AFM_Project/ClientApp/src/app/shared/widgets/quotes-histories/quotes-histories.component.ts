@@ -25,23 +25,7 @@ export class QuotesHistoriesComponent implements OnInit {
       this.quotes = result;
       this.setData();
       this.chartOptions = {
-        rangeSelector: {
-          selected: 1
-        },
-
-        title: {
-          text: 'AAPL Stock Price'
-        },
-
-        series: [{
-          name: 'AAPL',
-          data: this.datas,
-          tooltip: {
-            valueDecimals: 2
-          }
-        }]
-      
-        /*chart: {
+       chart: {
           type: 'line'
         },
         title: {
@@ -69,7 +53,6 @@ export class QuotesHistoriesComponent implements OnInit {
         tooltip: {
           pointFormat: 'Price: <b>{point.y:.2f}</b>'
         },
-
         series: [{
           type: 'line',
           name: 'AMZN StockPrice',
@@ -83,7 +66,7 @@ export class QuotesHistoriesComponent implements OnInit {
             valueDecimals: 2
           },
           turboThreshold: 25000
-        }]*/
+        }]
 
       };   
     }, error => console.error(error));
