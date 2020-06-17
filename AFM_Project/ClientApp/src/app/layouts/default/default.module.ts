@@ -5,7 +5,7 @@ import { AdminDashboardComponent } from 'src/app/modules/admin-dashboard/admin-d
 import { RouterModule } from '@angular/router';
 import { PagesComponent } from '../../modules/pages/pages.component';
 import { SharedModule } from '../../shared/shared.module';
-import { MatSidenavModule, MatDividerModule } from '@angular/material'
+import { MatSidenavModule, MatDividerModule} from '@angular/material'
  
 
 
@@ -20,7 +20,8 @@ import { MatSidenavModule, MatDividerModule } from '@angular/material'
     RouterModule,
     SharedModule,
     MatSidenavModule,
-    MatDividerModule
+    MatDividerModule,
+ 
   ]
 })
 export class DefaultModule { }

@@ -1,101 +1,91 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as Highcharts from 'highcharts/highstock';
-import { ApiService } from '../../../api.service'
+import StockModule from 'highcharts/modules/stock';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { ApiService } from '../../../api.service';
 
 @Component({
   selector: 'app-widget-quotes-histories',
   templateUrl: './quotes-histories.component.html',
   styleUrls: ['./quotes-histories.component.scss']
 })
+
 export class QuotesHistoriesComponent implements OnInit {
 
-  chartOptions: {};
-
+  //Chart info
   Highcharts = Highcharts;
-  public chart: any;
+  chartConstructor = 'stockChart';
+  chartOptions: {};
+  
+ //charts'data 
   quotes: IQuotes[];
   datas = new Array<any>();
+
+  //stockselector
+  myControl = new FormControl();
+  options: string[] = ['One', 'Two', 'Three'];
+  filteredOptions: Observable<string[]>;
 
   constructor(private apiService: ApiService) {
   }
 
   ngOnInit() {
+    //Selector
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
+    // build chart
     this.apiService.getQuotesHistories().subscribe(result => {
       this.quotes = result;
       this.setData();
       this.chartOptions = {
-       chart: {
-          type: 'line'
+        rangeSelector: {
+          selected: 1
         },
+
         title: {
-          text: 'Action course'
+          text: this.quotes[1].security + ' Stock Price'
         },
-        xAxis: {
-          type: 'category',
-          labels: {
-            rotation: -45,
-            style: {
-              fontSize: '13px',
-              fontFamily: 'Verdana, sans-serif'
-            }
-          }
-        },
-        yAxis: {
-          min: 0,
-          title: {
-            text: 'price'
-          }
-        },
-        legend: {
-          enabled: false
-        },
-        tooltip: {
-          pointFormat: 'Price: <b>{point.y:.2f}</b>'
-        },
+
         series: [{
-          type: 'line',
-          name: 'AMZN StockPrice',
+          name: this.quotes[1].security,
           data: this.datas,
-          marker: {
-            enabled: true,
-            radius: 3
-          },
-          shadow: true,
           tooltip: {
             valueDecimals: 2
-          },
-          turboThreshold: 25000
+          }
         }]
-
       };   
     }, error => console.error(error));
   }
 
-    
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+  }
 
   setData() {
-
     for (let i = 0; i < this.quotes.length; i++) {
+      //change string date from MSSQLDB to Timestamp
       let date = new Date(this.quotes[i].quoteDateTime);
       let timestamp = date.getTime();
 
       this.datas.push([
-        //timestamp,
-        date,
-        //this.quotes[i].quoteDateTime,
+        timestamp,        
         this.quotes[i].lastTrade]
-      );
-            
+      );            
     };
-    console.log(this.datas);
-    
+    console.log(this.datas);    
   }
 
 }
 
-interface IQuotes {
-  //  Security: string;
+export interface IQuotes {
+  security: string;
   //  ask: number;
   //  bid: number;
   lastTrade: number;
