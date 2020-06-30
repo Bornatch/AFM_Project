@@ -20,11 +20,12 @@ namespace AFM_Project.Controllers
             _context = context;
         }
 
-        // GET: api/QuotesHistories
+        // GET: api/QuotesHistories using for distinct securities
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<QuotesHistory>>> GetQuotesHistory()
+        public async Task<ActionResult<IEnumerable<String>>> GetQuotesHistory()
         {
-            return await _context.QuotesHistory.ToListAsync();
+            //return await _context.QuotesHistory.ToListAsync();
+            return await _context.QuotesHistory.Select(s => s.Security).Distinct().ToListAsync();
         }
 
 

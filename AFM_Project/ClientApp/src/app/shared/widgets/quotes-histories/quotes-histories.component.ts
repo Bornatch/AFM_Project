@@ -4,7 +4,7 @@ import * as Highcharts from 'highcharts/highstock';
 import StockModule from 'highcharts/modules/stock';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, distinct, switchMap } from 'rxjs/operators';
 import { ApiService } from '../../../api.service';
 
 @Component({
@@ -26,21 +26,26 @@ export class QuotesHistoriesComponent implements OnInit {
 
   //stockselector
   myControl = new FormControl();
-  options: string[] = ['One', 'Two', 'Three'];
+  security: string = 'AAPL';
   filteredOptions: Observable<string[]>;
 
   constructor(private apiService: ApiService) {
   }
 
   ngOnInit() {
+
     //Selector
+    
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value))
+      switchMap(value => { return  this._filter(value || '') })
     );
+
     // build chart
-    this.apiService.getQuotesHistories().subscribe(result => {
+    this.apiService.getQuotesHistories(this.security).subscribe(result => {
       this.quotes = result;
+      
+      //Chart
       this.setData();
       this.chartOptions = {
         rangeSelector: {
@@ -62,11 +67,18 @@ export class QuotesHistoriesComponent implements OnInit {
     }, error => console.error(error));
   }
 
-  private _filter(value: string): string[] {
+  private _filter(value: string): Observable<any[]> {
     const filterValue = value.toLowerCase();
 
-    return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+    return this.apiService.getQuotesHistoriesSecurities()
+      .pipe(
+        map(response => response.filter(option => {
+          return option.toLowerCase().indexOf(filterValue) === 0
+        })
+        )
+      )
   }
+    
 
   setData() {
     for (let i = 0; i < this.quotes.length; i++) {
@@ -79,10 +91,9 @@ export class QuotesHistoriesComponent implements OnInit {
         this.quotes[i].lastTrade]
       );            
     };
-    console.log(this.datas);    
   }
 
-}
+ }
 
 export interface IQuotes {
   security: string;

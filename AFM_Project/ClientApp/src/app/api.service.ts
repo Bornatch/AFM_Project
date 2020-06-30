@@ -12,8 +12,27 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getQuotesHistories() {
-    return this.httpClient.get<IQuotes[]>('api/QuotesHistories/amzn');
+  //QuotesHistories Controllers
+  public getQuotesHistories(security:string) {
+    return this.httpClient.get<IQuotes[]>('api/QuotesHistories/' + security);
+  }
+
+  public getQuotesHistoriesSecurities() {
+    return this.httpClient.get<string[]>('api/QuotesHistories');
   }
 }
+
+interface ISecurities {
+  id_security: number
+  ; security: string
+  ; id_sector: number
+  ; id_industry: number
+  ; id_subindustry: number
+  ; companyName: string
+  ; volatility: number
+  ; marketCap: number
+  ; volLowest: number
+  ; volAverage: number
+  ; lastUpdate: string
+ }
 
