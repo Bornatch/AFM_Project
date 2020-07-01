@@ -45,17 +45,11 @@ export class QuotesHistoriesComponent implements  OnChanges {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       switchMap(value => { return  this._filter(value || '') })
-    );
-
-      
+    );      
      // build chart
      this.setChart();    
-  }
-
-       
-    
+  }  
   
-
   private _filter(value: string): Observable<any[]> {
     const filterValue = value.toLowerCase();
 
@@ -85,11 +79,9 @@ export class QuotesHistoriesComponent implements  OnChanges {
         rangeSelector: {
           selected: 1
         },
-
         title: {
           text: this.quotes[1].security + ' Stock Price'
         },
-
         series: [{
           name: this.quotes[1].security,
           data: this.datas,
@@ -102,19 +94,20 @@ export class QuotesHistoriesComponent implements  OnChanges {
   }
 
   private setData() {
+    //reset datas
+    this.datas = [];
     for (let i = 0; i < this.quotes.length; i++) {
       //change string date from MSSQLDB to Timestamp
       let date = new Date(this.quotes[i].quoteDateTime);
       let timestamp = date.getTime();
 
       this.datas.push([
-        timestamp,        
+        timestamp,
         this.quotes[i].lastTrade]
-      );            
+      );
     };
   }
-
- }
+}
 
 export interface IQuotes {
   security: string;
