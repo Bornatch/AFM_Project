@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as Highcharts from 'highcharts/highstock';
 import StockModule from 'highcharts/modules/stock';
@@ -13,36 +13,70 @@ import { ApiService } from '../../../api.service';
   styleUrls: ['./quotes-histories.component.scss']
 })
 
-export class QuotesHistoriesComponent implements OnInit {
+export class QuotesHistoriesComponent implements  OnChanges {
 
   //Chart info
   Highcharts = Highcharts;
   chartConstructor = 'stockChart';
   chartOptions: {};
+  selectedStock: string = 'AAPL';
+  @Input() test : boolean;
   
  //charts'data 
   quotes: IQuotes[];
   datas = new Array<any>();
-
-  //stockselector
   myControl = new FormControl();
-  security: string = 'AAPL';
   filteredOptions: Observable<string[]>;
 
   constructor(private apiService: ApiService) {
   }
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes); 
+    //Selector    
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      switchMap(value => { return  this._filter(value || '') })
+    );      
+     // build chart
+     this.setChart();    
+  }  
 
   ngOnInit() {
-
-    //Selector
-    
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       switchMap(value => { return  this._filter(value || '') })
     );
 
-    // build chart
-    this.apiService.getQuotesHistories(this.security).subscribe(result => {
+      
+     // build chart
+     this.setChart();    
+  }
+
+       
+    
+  
+
+  private _filter(value: string): Observable<any[]> {
+    const filterValue = value.toLowerCase();
+
+    return this.apiService.getQuotesHistoriesSecurities()
+      .pipe(
+        map(response => response.filter(option => {
+          return option.toLowerCase().indexOf(filterValue) === 0
+        })
+        )
+      )
+  }
+
+  onSelectedStock(option:string){
+    //console.log(option);
+    this.selectedStock = option;
+    //console.log(this.selectedStock)
+    this.setChart();
+  }
+    
+  private setChart(){
+    this.apiService.getQuotesHistories(this.selectedStock).subscribe(result => {
       this.quotes = result;
       
       //Chart
@@ -67,20 +101,7 @@ export class QuotesHistoriesComponent implements OnInit {
     }, error => console.error(error));
   }
 
-  private _filter(value: string): Observable<any[]> {
-    const filterValue = value.toLowerCase();
-
-    return this.apiService.getQuotesHistoriesSecurities()
-      .pipe(
-        map(response => response.filter(option => {
-          return option.toLowerCase().indexOf(filterValue) === 0
-        })
-        )
-      )
-  }
-    
-
-  setData() {
+  private setData() {
     for (let i = 0; i < this.quotes.length; i++) {
       //change string date from MSSQLDB to Timestamp
       let date = new Date(this.quotes[i].quoteDateTime);
