@@ -6,14 +6,13 @@ import { RouterModule } from '@angular/router';
 import { PagesComponent } from '../../modules/pages/pages.component';
 import { SharedModule } from '../../shared/shared.module';
 import { MatSidenavModule, MatDividerModule} from '@angular/material'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
  
-
-
 @NgModule({
   declarations: [
     DefaultComponent,
     AdminDashboardComponent,
-    PagesComponent  
+    PagesComponent,    
   ],
   imports: [
     CommonModule,
@@ -21,7 +20,7 @@ import { MatSidenavModule, MatDividerModule} from '@angular/material'
     SharedModule,
     MatSidenavModule,
     MatDividerModule,
- 
+    FormsModule
   ]
 })
 export class DefaultModule { }

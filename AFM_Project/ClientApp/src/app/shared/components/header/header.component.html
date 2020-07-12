@@ -17,16 +17,37 @@
           </button>
         </li>
         <li>
+          <a routerLink="" 
+             *ngIf="!isLog">
+            Login
+          </a>
+          <a href="#" (onclick)="logout()"
+             *ngIf="isLog">
+            Logout {{securityObject.userName}}
+          </a>
+        </li>
+        <li *ngIf="!isLog">
           <button mat-button [matMenuTriggerFor]="menu">
             <mat-icon>person_outline</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>
+          </button>          
+          <mat-menu #menu="matMenu" >
+            <button mat-menu-item routerLink="" >
               <mat-icon>exit_to_app</mat-icon>
-              Sign out
+              Connexion
             </button>
-          </mat-menu>
-        </li>
+          </mat-menu>          
+        </li>     
+        <li *ngIf="isLog">
+          <button mat-button [matMenuTriggerFor]="menu">
+            <mat-icon>person_outline</mat-icon>
+          </button>          
+          <mat-menu #menu="matMenu" >
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>exit_to_app</mat-icon>
+              Déonnexion
+            </button>
+          </mat-menu>          
+        </li>         
       </ul>
     </div>
   </mat-toolbar-row>

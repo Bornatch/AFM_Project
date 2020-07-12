@@ -20,7 +20,6 @@ export class QuotesHistoriesComponent implements  OnChanges {
   chartConstructor = 'stockChart';
   chartOptions: {};
   selectedStock: string = 'AAPL';
-  @Input() test : boolean;
   
  //charts'data 
   quotes: IQuotes[];
@@ -31,7 +30,6 @@ export class QuotesHistoriesComponent implements  OnChanges {
   constructor(private apiService: ApiService) {
   }
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes); 
     //Selector    
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
@@ -63,12 +61,10 @@ export class QuotesHistoriesComponent implements  OnChanges {
   }
 
   onSelectedStock(option:string){
-    //console.log(option);
     this.selectedStock = option;
-    //console.log(this.selectedStock)
     this.setChart();
   }
-    
+
   private setChart(){
     this.apiService.getQuotesHistories(this.selectedStock).subscribe(result => {
       this.quotes = result;
