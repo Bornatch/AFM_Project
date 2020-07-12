@@ -24,7 +24,7 @@ class AuthGuard implements CanActivate {
       return true;
     }
     else {
-      this.router.navigate([''],
+      this.router.navigate(['login'],
         { queryParams: { returnUrl: state.url } });
       return false;
     }
@@ -41,11 +41,11 @@ const routes: Routes = [{
   path: '',
   component: DefaultComponent,
   children: [{
-    path: '',
+    path: 'login',
     component: LoginComponent
   },
   {
-    path: 'dashboard',
+    path: '',
     component: AdminDashboardComponent,
     canActivate: [AuthGuard],
     data: { claimName: 'isAdmin' }

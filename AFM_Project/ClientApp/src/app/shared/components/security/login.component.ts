@@ -39,14 +39,14 @@ export class LoginComponent implements OnChanges {
     this._securityService.login(this.user)
       .subscribe(resp => {
         this.securityObject = resp;
-        this.isLog = resp.isAuthenticated
-        this.sendMessage()
         if (this.returnUrl) {
           this.router
-            .navigateByUrl(this.returnUrl);
+           .navigateByUrl(this.returnUrl);
         }
+      }, () => {
+        // Display error message
+        this.securityObject = new AppUserAuth();
       });
-    this.logUser.emit(this.securityObject);
   }
 
 }

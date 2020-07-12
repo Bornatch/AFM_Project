@@ -7,6 +7,7 @@ namespace AFM_Project.Models
     {
         public Customer()
         {
+            //ClaimUser = new HashSet<ClaimUser>();
             Messengers = new HashSet<Messengers>();
             Portfolio = new HashSet<Portfolio>();
             SmartLimit = new HashSet<SmartLimit>();
@@ -48,6 +49,7 @@ namespace AFM_Project.Models
         public bool? UseCash { get; set; }
         public string StartupPage { get; set; }
 
+     //   public virtual ICollection<ClaimUser> ClaimUser { get; set; }
         public virtual ICollection<Messengers> Messengers { get; set; }
         public virtual ICollection<Portfolio> Portfolio { get; set; }
         public virtual ICollection<SmartLimit> SmartLimit { get; set; }

@@ -22,6 +22,7 @@ namespace AFM_Project.Models
         public virtual DbSet<BrokerExecuted> BrokerExecuted { get; set; }
         public virtual DbSet<BrokerToExecute> BrokerToExecute { get; set; }
         public virtual DbSet<Brokers> Brokers { get; set; }
+        public virtual DbSet<ClaimUser> ClaimUser { get; set; }
         public virtual DbSet<CmetConditions> CmetConditions { get; set; }
         public virtual DbSet<CmetTracking> CmetTracking { get; set; }
         public virtual DbSet<CmetTrackingBuy> CmetTrackingBuy { get; set; }
@@ -93,6 +94,7 @@ namespace AFM_Project.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Data Source=BORNATCH-LENOVO\\SQLEXPRESS;Initial Catalog=Seilern;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }
         }
@@ -252,6 +254,27 @@ namespace AFM_Project.Models
                 entity.Property(e => e.IdBroker).HasColumnName("id_broker");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<ClaimUser>(entity =>
+            {
+                entity.HasKey(e => e.ClaimId)
+                    .HasName("PK__ClaimUse__EF2E13BBD31FF733");
+
+                entity.Property(e => e.ClaimId)
+                    .HasColumnName("ClaimID")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.ClaimType).HasMaxLength(50);
+
+                entity.Property(e => e.IdCustomer).HasColumnName("id_customer");
+                
+                /*
+                entity.HasOne(d => d.IdCustomerNavigation)
+                    .WithMany(p => p.ClaimUser)
+                    .HasForeignKey(d => d.IdCustomer)
+                    .HasConstraintName("FK__ClaimUser__id_cu__7AF13DF7");
+                */
             });
 
             modelBuilder.Entity<CmetConditions>(entity =>
