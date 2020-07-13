@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AFM_Project.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AFM_Project.Controllers
 {
@@ -22,6 +23,7 @@ namespace AFM_Project.Controllers
 
         // GET: api/QuotesHistories using for distinct securities
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<String>>> GetQuotesHistory()
         {
             //return await _context.QuotesHistory.ToListAsync();
@@ -31,6 +33,7 @@ namespace AFM_Project.Controllers
 
         // GET: api/QuotesHistories/AMZN
         [HttpGet("{security}")]
+        //[Authorize]
         public async Task<ActionResult<IEnumerable<QuotesHistory>>> GetSecurityQuotesHistory(String security)
         {
             return await _context.QuotesHistory.Where(s => s.Security == security).ToListAsync();

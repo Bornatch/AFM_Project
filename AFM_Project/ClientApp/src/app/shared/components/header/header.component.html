@@ -18,15 +18,15 @@
         </li>
         <li>
           <a routerLink="/login" 
-             *ngIf="!isLog">
+             *ngIf="!securityObject.isAuthenticated">
             Login
           </a>
           <a href="#" (onclick)="logout()"
-             *ngIf="isLog">
+             *ngIf="securityObject.isAuthenticated">
             Logout {{securityObject.userName}}
           </a>
         </li>
-        <li *ngIf="!isLog">
+        <li *ngIf="!securityObject.isAuthenticated">
           <button mat-button [matMenuTriggerFor]="menu">
             <mat-icon>person_outline</mat-icon>
           </button>          
@@ -37,7 +37,7 @@
             </button>
           </mat-menu>          
         </li>     
-        <li *ngIf="isLog">
+        <li *ngIf="securityObject.isAuthenticated">
           <button mat-button [matMenuTriggerFor]="menu">
             <mat-icon>person_outline</mat-icon>
           </button>          

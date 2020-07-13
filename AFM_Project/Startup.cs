@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using AFM_Project.Models;
+using System;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AFM_Project
 {
@@ -22,6 +24,40 @@ namespace AFM_Project
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // selon https://www.codemag.com/Article/1809031/Security-in-Angular-Part-2
+            // Get JWT Settings from JSON file
+            JwtSettings settings;
+            settings = GetJwtSettings();
+            services.AddSingleton<JwtSettings>(settings);
+
+            // Register Jwt as the Authentication service
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme =
+                  "JwtBearer";
+                options.DefaultChallengeScheme = "JwtBearer";
+            })
+            .AddJwtBearer("JwtBearer", jwtBearerOptions =>
+            {
+                jwtBearerOptions.TokenValidationParameters =
+                  new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                        System.Text.Encoding.UTF8.GetBytes(settings.Key)),
+                        ValidateIssuer = true,
+                        ValidIssuer = settings.Issuer,
+
+                        ValidateAudience = true,
+                        ValidAudience = settings.Audience,
+
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.FromMinutes(
+                        settings.MinutesToExpiration)
+                    };
+            });
+
+
             services.AddDbContext<SeilernContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SeilernDB")));
 
             services.AddControllersWithViews();
@@ -55,6 +91,10 @@ namespace AFM_Project
 
             app.UseRouting();
 
+            //ajout auth
+            app.UseAuthorization();
+            app.UseAuthentication();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -74,6 +114,25 @@ namespace AFM_Project
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            
+            //app.UseMvc();
+
+        }
+
+        public JwtSettings GetJwtSettings()
+        {
+            JwtSettings settings = new JwtSettings();
+            settings.Key =
+              Configuration["JwtSettings:key"];
+            settings.Audience =
+              Configuration["JwtSettings:audience"];
+            settings.Issuer =
+              Configuration["JwtSettings:issuer"];
+            settings.MinutesToExpiration =
+              Convert.ToInt32(
+                Configuration["JwtSettings: minutesToExpiration"]);
+          return settings;
         }
     }
 }

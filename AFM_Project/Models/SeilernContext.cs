@@ -269,12 +269,12 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.IdCustomer).HasColumnName("id_customer");
                 
-                /*
+                
                 entity.HasOne(d => d.IdCustomerNavigation)
                     .WithMany(p => p.ClaimUser)
                     .HasForeignKey(d => d.IdCustomer)
                     .HasConstraintName("FK__ClaimUser__id_cu__7AF13DF7");
-                */
+                
             });
 
             modelBuilder.Entity<CmetConditions>(entity =>

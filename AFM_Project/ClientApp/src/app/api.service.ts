@@ -1,23 +1,27 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 //Interfaces
 import { IQuotes } from './shared/widgets/quotes-histories/quotes-histories.component'
+import { SecurityService } from './shared/components/security/security.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  @Inject('BASE_URL') baseUrl: string;
-
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient,
+    private securityService: SecurityService) { }
 
   //QuotesHistories Controllers
-  public getQuotesHistories(security:string) {
+  public getQuotesHistories(security: string) {   
     return this.httpClient.get<IQuotes[]>('api/QuotesHistories/' + security);
   }
 
   public getQuotesHistoriesSecurities() {
+    let httpOptions = new HttpHeaders()
+      .set('Authorization', 'Bearer ' +
+        this.securityService
+          .securityObject.bearerToken);
     return this.httpClient.get<string[]>('api/QuotesHistories');
   }
 }
@@ -34,5 +38,5 @@ interface ISecurities {
   ; volLowest: number
   ; volAverage: number
   ; lastUpdate: string
- }
+}
 

@@ -10,6 +10,6 @@ namespace AFM_Project.Models
         public string ClaimType { get; set; }
         public bool? ClaimValue { get; set; }
 
-       // public virtual Customer IdCustomerNavigation { get; set; }
+        public virtual Customer IdCustomerNavigation { get; set; }
     }
 }

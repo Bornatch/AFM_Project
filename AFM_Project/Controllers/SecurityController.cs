@@ -13,15 +13,23 @@ namespace AFM_Project.Controllers
     public class SecurityController : ControllerBase
     {
         //code from https://www.codemag.com/Article/1809031/Security-in-Angular-Part-2
+
+        private JwtSettings _settings;
+        public SecurityController(JwtSettings settings)
+        {
+            _settings = settings;
+        }
+
         [HttpPost("login")]
         public IActionResult
           Login([FromBody] Customer user)
         {
             IActionResult ret = null;
             AppUserAuth auth = new AppUserAuth();
-            SecurityManager mgr = new SecurityManager();
+            SecurityManager mgr = new SecurityManager(_settings);
 
-            auth = mgr.AuthenticateUser(user);
+            auth = (AppUserAuth)mgr.AuthenticateUser(user);
+
             if (auth.IsAuthenticated)
             {
                 ret = StatusCode(StatusCodes.Status200OK,

@@ -14,7 +14,11 @@ export class LoginComponent implements OnChanges {
 
   user: AppUser = new AppUser();
   isLog: boolean = false;
-  @Input() securityObject: AppUserAuth;
+  @Input() securityObject: AppUserAuth = new AppUserAuth /*{ "userName" : '',
+  "bearerToken" :'',
+  "isAuthenticated": false,
+  "isAdmin": false
+};*/
   @Output() logUser: EventEmitter<AppUserAuth> = new EventEmitter<AppUserAuth>();
   returnUrl: string;
 
@@ -26,6 +30,7 @@ export class LoginComponent implements OnChanges {
   }
 
   ngOnInit() {
+    this.securityObject.isAuthenticated = false;
     this.returnUrl = 
     this.route.snapshot
       .queryParamMap.get('returnUrl');

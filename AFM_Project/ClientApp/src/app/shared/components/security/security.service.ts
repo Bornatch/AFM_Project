@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators/tap';
 import { AppUserAuth } from './app-user-auth';
 import { AppUser } from './app-user';
-import { LOGIN_MOCKS } from './login-mocks';
 import { getBaseUrl } from 'src/main';
 
 const httpOptions = {
