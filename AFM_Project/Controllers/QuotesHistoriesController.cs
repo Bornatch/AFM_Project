@@ -23,7 +23,7 @@ namespace AFM_Project.Controllers
 
         // GET: api/QuotesHistories using for distinct securities
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<IEnumerable<String>>> GetQuotesHistory()
         {
             //return await _context.QuotesHistory.ToListAsync();
