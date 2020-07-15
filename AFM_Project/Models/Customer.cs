@@ -7,9 +7,7 @@ namespace AFM_Project.Models
     {
         public Customer()
         {
-            //ClaimUser = new HashSet<ClaimUser>();
             Messengers = new HashSet<Messengers>();
-            Portfolio = new HashSet<Portfolio>();
             SmartLimit = new HashSet<SmartLimit>();
         }
 
@@ -48,10 +46,23 @@ namespace AFM_Project.Models
         public bool? CanUseCash { get; set; }
         public bool? UseCash { get; set; }
         public string StartupPage { get; set; }
+        public int? AlgoType { get; set; }
+        public int? FeDay { get; set; }
+        public double? FeThreshold { get; set; }
+        public int? ReschDay { get; set; }
+        public double? RsslCoef { get; set; }
+        public bool? QuoteMa { get; set; }
+        public double? QuoteNegCoef { get; set; }
+        public bool? UseEarningsSell { get; set; }
+        public bool? UseBlacklistSell { get; set; }
+        public int? BlockDay { get; set; }
+        public double? TakeProfitThreshold { get; set; }
+        public double? IndexVolatility { get; set; }
+        public int? BlockDayMin { get; set; }
+        public bool? UseStoplossBull { get; set; }
+        public double? StoplossBullCoef { get; set; }
 
-        public virtual ICollection<ClaimUser> ClaimUser { get; set; }
         public virtual ICollection<Messengers> Messengers { get; set; }
-        public virtual ICollection<Portfolio> Portfolio { get; set; }
         public virtual ICollection<SmartLimit> SmartLimit { get; set; }
     }
 }

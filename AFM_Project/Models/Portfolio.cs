@@ -17,7 +17,6 @@ namespace AFM_Project.Models
         public double? CurQuote { get; set; }
         public DateTime? LastUpdate { get; set; }
         public Guid? IdTraded { get; set; }
-
-        public virtual Customer IdCustomerNavigation { get; set; }
+        public Guid? IdPool { get; set; }
     }
 }

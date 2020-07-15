@@ -60,7 +60,7 @@ namespace AFM_Project.Models
             using (var db = new SeilernContext())
             {
                 list = db.ClaimUser.Where(
-                       u => u.IdCustomer == authUser.IdCustomer)
+                       u => u.IdMetaCustomer == authUser.IdCustomer)
                        .ToList();
             }
 

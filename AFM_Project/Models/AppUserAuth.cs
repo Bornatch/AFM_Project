@@ -17,7 +17,7 @@ namespace AFM_Project.Models
         public string BearerToken { get; set; }
         public bool IsAuthenticated { get; set; }
         public bool IsAdmin { get; set; }
+        public bool IsUser { get; set; }
 
-        public virtual Customer IdCustomerNavigation { get; set; }
     }
 }

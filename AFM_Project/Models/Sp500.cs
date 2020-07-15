@@ -14,5 +14,7 @@ namespace AFM_Project.Models
         public double? Weight { get; set; }
         public DateTime? Updated { get; set; }
         public double? Beta { get; set; }
+        public long? FloatShares { get; set; }
+        public double? Eps { get; set; }
     }
 }

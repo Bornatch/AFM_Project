@@ -4,6 +4,7 @@ export class AppUserAuth {
     userName: string = "";
     bearerToken: string = "";
     isAuthenticated: boolean = false;
-    isAdmin: boolean = false;    
+    isAdmin: boolean = false;  
+    isUser : boolean = false;
   }
   

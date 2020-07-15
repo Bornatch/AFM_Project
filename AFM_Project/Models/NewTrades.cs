@@ -27,10 +27,5 @@ namespace AFM_Project.Models
         public bool? SellExecuted { get; set; }
         public bool? BuyExecuted { get; set; }
         public int? ExecutionStatus { get; set; }
-        public bool? NegSavingL1 { get; set; }
-        public bool? NegSavingL2 { get; set; }
-        public bool? NegSavingL0 { get; set; }
-        public bool? NegSavingL3 { get; set; }
-        public DateTime? NegSavL0time { get; set; }
     }
 }

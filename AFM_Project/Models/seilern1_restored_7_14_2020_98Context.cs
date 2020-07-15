@@ -19,6 +19,7 @@ namespace AFM_Project.Models
         public virtual DbSet<AlgParams> AlgParams { get; set; }
         public virtual DbSet<AlgPhase> AlgPhase { get; set; }
         public virtual DbSet<Algorithm> Algorithm { get; set; }
+        public virtual DbSet<Blacklist> Blacklist { get; set; }
         public virtual DbSet<BrokerExecuted> BrokerExecuted { get; set; }
         public virtual DbSet<BrokerToExecute> BrokerToExecute { get; set; }
         public virtual DbSet<Brokers> Brokers { get; set; }
@@ -28,6 +29,7 @@ namespace AFM_Project.Models
         public virtual DbSet<CmetTrackingBuy> CmetTrackingBuy { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<DividendHistory> DividendHistory { get; set; }
+        public virtual DbSet<EarningsEvent> EarningsEvent { get; set; }
         public virtual DbSet<EodbrokerData> EodbrokerData { get; set; }
         public virtual DbSet<Eoddata> Eoddata { get; set; }
         public virtual DbSet<Eodindexes> Eodindexes { get; set; }
@@ -42,6 +44,7 @@ namespace AFM_Project.Models
         public virtual DbSet<IndustriesSub> IndustriesSub { get; set; }
         public virtual DbSet<Messages> Messages { get; set; }
         public virtual DbSet<Messengers> Messengers { get; set; }
+        public virtual DbSet<MetaCustomer> MetaCustomer { get; set; }
         public virtual DbSet<Monitoring> Monitoring { get; set; }
         public virtual DbSet<MonitoringByBroker> MonitoringByBroker { get; set; }
         public virtual DbSet<MonitoringLog> MonitoringLog { get; set; }
@@ -65,14 +68,15 @@ namespace AFM_Project.Models
         public virtual DbSet<Portfolios> Portfolios { get; set; }
         public virtual DbSet<QuoteImport> QuoteImport { get; set; }
         public virtual DbSet<Quotes> Quotes { get; set; }
-        public virtual DbSet<Quotes1> Quotes1 { get; set; }
         public virtual DbSet<QuotesDaily> QuotesDaily { get; set; }
         public virtual DbSet<QuotesEvent> QuotesEvent { get; set; }
         public virtual DbSet<QuotesEventLog> QuotesEventLog { get; set; }
         public virtual DbSet<QuotesFromCybertrader> QuotesFromCybertrader { get; set; }
+        public virtual DbSet<QuotesFromCyt25> QuotesFromCyt25 { get; set; }
         public virtual DbSet<QuotesFromSchwab> QuotesFromSchwab { get; set; }
         public virtual DbSet<QuotesHistory> QuotesHistory { get; set; }
         public virtual DbSet<QuotesIndices> QuotesIndices { get; set; }
+        public virtual DbSet<QuotesMa> QuotesMa { get; set; }
         public virtual DbSet<QuotesToExclude> QuotesToExclude { get; set; }
         public virtual DbSet<QuotesToMonitor> QuotesToMonitor { get; set; }
         public virtual DbSet<ReverseOrders> ReverseOrders { get; set; }
@@ -86,8 +90,8 @@ namespace AFM_Project.Models
         public virtual DbSet<SmartLimit> SmartLimit { get; set; }
         public virtual DbSet<Sp500> Sp500 { get; set; }
         public virtual DbSet<Symbols> Symbols { get; set; }
-        public virtual DbSet<Traded2> Traded2 { get; set; }
         public virtual DbSet<TradedOrders> TradedOrders { get; set; }
+        public virtual DbSet<TradedOrders1> TradedOrders1 { get; set; }
         public virtual DbSet<Volatilities> Volatilities { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -95,7 +99,7 @@ namespace AFM_Project.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=BORNATCH-LENOVO\\SQLEXPRESS;Initial Catalog=Seilern;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                optionsBuilder.UseSqlServer("Data Source=BORNATCH-LENOVO\\SQLEXPRESS;Initial Catalog=seilern1_restored_7_14_2020_98;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }
         }
 
@@ -136,11 +140,11 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.IdPhaseOrAlgo).HasColumnName("id_PhaseOrAlgo");
 
-                entity.Property(e => e.ParamBoolValue).HasDefaultValueSql("((0))");
+                entity.Property(e => e.ParamBoolValue).HasDefaultValueSql("(0)");
 
-                entity.Property(e => e.ParamDoubleValue).HasDefaultValueSql("((0.0))");
+                entity.Property(e => e.ParamDoubleValue).HasDefaultValueSql("(0.0)");
 
-                entity.Property(e => e.ParamIntValue).HasDefaultValueSql("((0))");
+                entity.Property(e => e.ParamIntValue).HasDefaultValueSql("(0)");
 
                 entity.Property(e => e.ParamName).HasMaxLength(50);
 
@@ -179,6 +183,28 @@ namespace AFM_Project.Models
                 entity.Property(e => e.Title).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<Blacklist>(entity =>
+            {
+                entity.Property(e => e.BeginDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("('2100-01-01')");
+
+                entity.Property(e => e.Mandatory).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.RefDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("('2100-01-01')");
+
+                entity.Property(e => e.StopDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("('2100-01-01')");
+
+                entity.Property(e => e.Symbol)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<BrokerExecuted>(entity =>
             {
                 entity.HasKey(e => e.IdBrokerExecuted);
@@ -189,7 +215,7 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.ApiorderId).HasColumnName("APIOrderId");
 
-                entity.Property(e => e.Custom1).HasDefaultValueSql("((0))");
+                entity.Property(e => e.Custom1).HasDefaultValueSql("(0)");
 
                 entity.Property(e => e.DateStamp).HasColumnType("datetime");
 
@@ -229,7 +255,7 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.LastUpdate).HasColumnType("datetime");
 
-                entity.Property(e => e.OrderType).HasDefaultValueSql("((1))");
+                entity.Property(e => e.OrderType).HasDefaultValueSql("(1)");
 
                 entity.Property(e => e.Security).HasMaxLength(12);
 
@@ -259,22 +285,20 @@ namespace AFM_Project.Models
             modelBuilder.Entity<ClaimUser>(entity =>
             {
                 entity.HasKey(e => e.ClaimId)
-                    .HasName("PK__ClaimUse__EF2E13BBD31FF733");
+                    .HasName("PK__ClaimUse__EF2E13BB7F23DD73");
 
                 entity.Property(e => e.ClaimId)
                     .HasColumnName("ClaimID")
-                    .ValueGeneratedNever();
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.ClaimType).HasMaxLength(50);
 
-                entity.Property(e => e.IdCustomer).HasColumnName("id_customer");
-                
-                
-                entity.HasOne(d => d.IdCustomerNavigation)
+                entity.Property(e => e.IdMetaCustomer).HasColumnName("id_MetaCustomer");
+
+                entity.HasOne(d => d.IdMetaCustomerNavigation)
                     .WithMany(p => p.ClaimUser)
-                    .HasForeignKey(d => d.IdCustomer)
-                    .HasConstraintName("FK__ClaimUser__id_cu__7AF13DF7");
-                
+                    .HasForeignKey(d => d.IdMetaCustomer)
+                    .HasConstraintName("FK__ClaimUser__id_Me__2E5BD364");
             });
 
             modelBuilder.Entity<CmetConditions>(entity =>
@@ -303,7 +327,7 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.ReqSavings)
                     .HasColumnName("req_savings")
-                    .HasDefaultValueSql("((0.0))");
+                    .HasDefaultValueSql("(0.0)");
 
                 entity.Property(e => e.Sell).HasMaxLength(10);
 
@@ -378,7 +402,7 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.MeanPerf)
                     .HasColumnName("mean_perf")
-                    .HasDefaultValueSql("((0.0))");
+                    .HasDefaultValueSql("(0.0)");
             });
 
             modelBuilder.Entity<Customer>(entity =>
@@ -402,6 +426,10 @@ namespace AFM_Project.Models
                     .HasMaxLength(128)
                     .IsUnicode(false);
 
+                entity.Property(e => e.AlgoType).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.BlockDayMin).HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.City)
                     .HasMaxLength(128)
                     .IsUnicode(false);
@@ -414,6 +442,10 @@ namespace AFM_Project.Models
                     .HasColumnName("E_mail")
                     .HasMaxLength(128)
                     .IsUnicode(false);
+
+                entity.Property(e => e.FeDay).HasDefaultValueSql("((9))");
+
+                entity.Property(e => e.FeThreshold).HasDefaultValueSql("((0.3))");
 
                 entity.Property(e => e.Firstname)
                     .HasMaxLength(128)
@@ -430,6 +462,8 @@ namespace AFM_Project.Models
                 entity.Property(e => e.IdMetaCustomer)
                     .HasColumnName("id_MetaCustomer")
                     .HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.IndexVolatility).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.LastLogin).HasColumnType("smalldatetime");
 
@@ -469,9 +503,23 @@ namespace AFM_Project.Models
                     .HasMaxLength(128)
                     .IsUnicode(false);
 
-                entity.Property(e => e.PowerUser).HasDefaultValueSql("((0))");
+                entity.Property(e => e.PowerUser).HasDefaultValueSql("(0)");
+
+                entity.Property(e => e.QuoteMa)
+                    .HasColumnName("QuoteMA")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.QuoteNegCoef)
+                    .HasColumnName("QuoteNeg_Coef")
+                    .HasDefaultValueSql("((1.5))");
 
                 entity.Property(e => e.RegisterDate).HasColumnType("smalldatetime");
+
+                entity.Property(e => e.ReschDay).HasDefaultValueSql("((15))");
+
+                entity.Property(e => e.RsslCoef)
+                    .HasColumnName("RSSL_Coef")
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.SecondMail)
                     .HasMaxLength(128)
@@ -480,13 +528,21 @@ namespace AFM_Project.Models
                 entity.Property(e => e.ShareInfoOk)
                     .IsRequired()
                     .HasColumnName("ShareInfoOK")
-                    .HasDefaultValueSql("((1))");
+                    .HasDefaultValueSql("(1)");
 
                 entity.Property(e => e.StartupPage).HasMaxLength(100);
+
+                entity.Property(e => e.StoplossBullCoef).HasColumnName("StoplossBull_Coef");
+
+                entity.Property(e => e.TakeProfitThreshold).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.ThirdMail)
                     .HasMaxLength(128)
                     .IsUnicode(false);
+
+                entity.Property(e => e.UseBlacklistSell).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.UseEarningsSell).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.UserName)
                     .HasMaxLength(128)
@@ -518,6 +574,38 @@ namespace AFM_Project.Models
                 entity.Property(e => e.ValueAction).HasColumnName("value_action");
 
                 entity.Property(e => e.ValueAll).HasColumnName("value_all");
+            });
+
+            modelBuilder.Entity<EarningsEvent>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.DateWsh)
+                    .IsRequired()
+                    .HasColumnName("DateWSH")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.SellDate).HasColumnType("datetime");
+
+                entity.Property(e => e.StatusWsh)
+                    .IsRequired()
+                    .HasColumnName("StatusWSH")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Symbol)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TimeWsh)
+                    .IsRequired()
+                    .HasColumnName("TimeWSH")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<EodbrokerData>(entity =>
@@ -552,13 +640,13 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.BotSold)
                     .HasColumnName("bot_sold")
-                    .HasDefaultValueSql("((0.0))");
+                    .HasDefaultValueSql("(0.0)");
 
                 entity.Property(e => e.CapitalIncrease)
                     .HasColumnName("capital_increase")
-                    .HasDefaultValueSql("((0.0))");
+                    .HasDefaultValueSql("(0.0)");
 
-                entity.Property(e => e.Cash).HasDefaultValueSql("((0.0))");
+                entity.Property(e => e.Cash).HasDefaultValueSql("(0.0)");
 
                 entity.Property(e => e.DateStamp).HasColumnType("smalldatetime");
 
@@ -566,7 +654,7 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.NbShares)
                     .HasColumnName("nb_shares")
-                    .HasDefaultValueSql("((0.0))");
+                    .HasDefaultValueSql("(0.0)");
             });
 
             modelBuilder.Entity<Eodindexes>(entity =>
@@ -613,11 +701,11 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.Compx)
                     .HasColumnName("COMPX")
-                    .HasDefaultValueSql("((0))");
+                    .HasDefaultValueSql("(0)");
 
                 entity.Property(e => e.Djia)
                     .HasColumnName("DJIA")
-                    .HasDefaultValueSql("((0))");
+                    .HasDefaultValueSql("(0)");
 
                 entity.Property(e => e.ExecutionDate).HasColumnType("smalldatetime");
 
@@ -627,11 +715,11 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.Spx)
                     .HasColumnName("SPX")
-                    .HasDefaultValueSql("((0))");
+                    .HasDefaultValueSql("(0)");
 
                 entity.Property(e => e.Which)
                     .HasColumnName("which")
-                    .HasDefaultValueSql("((1))");
+                    .HasDefaultValueSql("(1)");
             });
 
             modelBuilder.Entity<Fixpositions>(entity =>
@@ -783,6 +871,89 @@ namespace AFM_Project.Models
                     .HasConstraintName("Customer_Messengers_FK1");
             });
 
+            modelBuilder.Entity<MetaCustomer>(entity =>
+            {
+                entity.HasKey(e => e.IdMetaCustomer)
+                    .HasName("PK__MetaCust__7EF78DFA4D6FF216");
+
+                entity.Property(e => e.IdMetaCustomer)
+                    .HasColumnName("id_MetaCustomer")
+                    .HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.Address)
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.City)
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Country)
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EMail)
+                    .HasColumnName("E_mail")
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Firstname)
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LastLogin).HasColumnType("smalldatetime");
+
+                entity.Property(e => e.Lastname)
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Password)
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PasswordHint)
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PhoneBusiness)
+                    .HasColumnName("Phone_business")
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PhoneCell)
+                    .HasColumnName("Phone_cell")
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PhoneFax)
+                    .HasColumnName("Phone_fax")
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PhoneHome)
+                    .HasColumnName("Phone_home")
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Postal)
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RegisterDate).HasColumnType("smalldatetime");
+
+                entity.Property(e => e.SecondMail)
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ThirdMail)
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.WebUserName)
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Monitoring>(entity =>
             {
                 entity.HasNoKey();
@@ -863,17 +1034,25 @@ namespace AFM_Project.Models
                     .HasColumnName("Id_newtrade")
                     .ValueGeneratedNever();
 
+                entity.Property(e => e.BlacklistSell).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.BuyBestSave).HasMaxLength(64);
+
+                entity.Property(e => e.BuyWorstSave).HasMaxLength(64);
+
                 entity.Property(e => e.Compx)
                     .HasColumnName("COMPX")
-                    .HasDefaultValueSql("((0.0))");
+                    .HasDefaultValueSql("(0.0)");
 
                 entity.Property(e => e.Djia)
                     .HasColumnName("DJIA")
-                    .HasDefaultValueSql("((0.0))");
+                    .HasDefaultValueSql("(0.0)");
 
                 entity.Property(e => e.DoReverse)
                     .HasColumnName("doReverse")
-                    .HasDefaultValueSql("((0))");
+                    .HasDefaultValueSql("(0)");
+
+                entity.Property(e => e.EarningsSell).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.ExpirationDate).HasColumnType("smalldatetime");
 
@@ -883,31 +1062,59 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.IdSeilern).HasColumnName("Id_seilern");
 
+                entity.Property(e => e.InitSquote)
+                    .HasColumnName("InitSQuote")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.NbResch).HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.NegSavL0time)
                     .HasColumnName("NegSavL0Time")
                     .HasColumnType("smalldatetime");
 
-                entity.Property(e => e.NegSavingL0).HasDefaultValueSql("((0))");
+                entity.Property(e => e.NegSavingL0).HasDefaultValueSql("(0)");
 
-                entity.Property(e => e.NegSavingL1).HasDefaultValueSql("((0))");
+                entity.Property(e => e.NegSavingL1).HasDefaultValueSql("(0)");
 
-                entity.Property(e => e.NegSavingL2).HasDefaultValueSql("((0))");
+                entity.Property(e => e.NegSavingL2).HasDefaultValueSql("(0)");
 
-                entity.Property(e => e.NegSavingL3).HasDefaultValueSql("((0))");
+                entity.Property(e => e.NegSavingL3).HasDefaultValueSql("(0)");
 
                 entity.Property(e => e.OrderDate).HasColumnType("smalldatetime");
+
+                entity.Property(e => e.QuoteLast).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.QuoteMax).HasDefaultValueSql("((-100))");
+
+                entity.Property(e => e.QuoteMinimum).HasDefaultValueSql("((100))");
+
+                entity.Property(e => e.QuoteNegL1).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.QuoteNegL2).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.QuoteNegL3).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.SavingLast).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.SavingMax).HasDefaultValueSql("((-100))");
+
+                entity.Property(e => e.SavingMaxDate).HasColumnType("smalldatetime");
+
+                entity.Property(e => e.SavingMinDate).HasColumnType("smalldatetime");
+
+                entity.Property(e => e.SavingMinimum).HasDefaultValueSql("((100))");
 
                 entity.Property(e => e.Sell).HasMaxLength(64);
 
                 entity.Property(e => e.Spx)
                     .HasColumnName("SPX")
-                    .HasDefaultValueSql("((0.0))");
+                    .HasDefaultValueSql("(0.0)");
 
                 entity.Property(e => e.Squantity).HasColumnName("SQuantity");
 
                 entity.Property(e => e.Squote).HasColumnName("SQuote");
 
-                entity.Property(e => e.StopLoss).HasDefaultValueSql("((0))");
+                entity.Property(e => e.StopLoss).HasDefaultValueSql("(0)");
             });
 
             modelBuilder.Entity<NewTradebuy>(entity =>
@@ -919,7 +1126,7 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.IdNewtradebuy)
                     .HasColumnName("Id_newtradebuy")
-                    .ValueGeneratedNever();
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Bquantity).HasColumnName("BQuantity");
 
@@ -960,10 +1167,6 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.IdSeilern).HasColumnName("Id_seilern");
 
-                entity.Property(e => e.NegSavL0time)
-                    .HasColumnName("NegSavL0Time")
-                    .HasColumnType("smalldatetime");
-
                 entity.Property(e => e.OrderDate).HasColumnType("smalldatetime");
 
                 entity.Property(e => e.Sell).HasMaxLength(64);
@@ -986,10 +1189,6 @@ namespace AFM_Project.Models
                     .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.BrokerOrderId).HasColumnName("BrokerOrderID");
-
-                entity.Property(e => e.IbApiorderId).HasColumnName("IbAPIOrderID");
-
-                entity.Property(e => e.IbPermId).HasColumnName("IbPermID");
 
                 entity.Property(e => e.IdBroker).HasColumnName("id_broker");
 
@@ -1211,7 +1410,7 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.DateStopped).HasColumnType("datetime");
 
-                entity.Property(e => e.ExtraValue).HasDefaultValueSql("((0))");
+                entity.Property(e => e.ExtraValue).HasDefaultValueSql("(0)");
 
                 entity.Property(e => e.IdCustomer).HasColumnName("Id_customer");
 
@@ -1220,6 +1419,8 @@ namespace AFM_Project.Models
                 entity.Property(e => e.LastUpdatePool).HasColumnType("datetime");
 
                 entity.Property(e => e.PerfRsq1).HasColumnName("PerfRSQ1");
+
+                entity.Property(e => e.PoolVolatility).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.ReqSavings).HasColumnName("Req_savings");
 
@@ -1262,6 +1463,8 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.IdCustomer).HasColumnName("id_customer");
 
+                entity.Property(e => e.IdPool).HasColumnName("Id_pool");
+
                 entity.Property(e => e.IdPortfolio)
                     .HasColumnName("id_portfolio")
                     .HasDefaultValueSql("(newid())");
@@ -1277,12 +1480,6 @@ namespace AFM_Project.Models
                 entity.Property(e => e.PurchasedWhen).HasColumnType("datetime");
 
                 entity.Property(e => e.Security).HasMaxLength(10);
-
-                entity.HasOne(d => d.IdCustomerNavigation)
-                    .WithMany(p => p.Portfolio)
-                    .HasForeignKey(d => d.IdCustomer)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Portfolio_Customer");
             });
 
             modelBuilder.Entity<PortfolioHistory>(entity =>
@@ -1304,7 +1501,7 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.IdCustomer).HasColumnName("id_customer");
 
-                entity.Property(e => e.InitPortfolioTotal).HasDefaultValueSql("((0.0))");
+                entity.Property(e => e.InitPortfolioTotal).HasDefaultValueSql("(0.0)");
             });
 
             modelBuilder.Entity<Portfolios>(entity =>
@@ -1343,21 +1540,6 @@ namespace AFM_Project.Models
                 entity.Property(e => e.Code).HasMaxLength(12);
 
                 entity.Property(e => e.CompanyName).HasMaxLength(100);
-
-                entity.Property(e => e.QuoteDateTime).HasColumnType("datetime");
-            });
-
-            modelBuilder.Entity<Quotes1>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("Quotes 1");
-
-                entity.Property(e => e.Code).HasMaxLength(12);
-
-                entity.Property(e => e.CompanyName).HasMaxLength(100);
-
-                entity.Property(e => e.IdQuote).HasColumnName("Id_quote");
 
                 entity.Property(e => e.QuoteDateTime).HasColumnType("datetime");
             });
@@ -1408,6 +1590,21 @@ namespace AFM_Project.Models
                 entity.Property(e => e.QuoteDateTime).HasColumnType("datetime");
             });
 
+            modelBuilder.Entity<QuotesFromCyt25>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("Quotes from CYT 2.5");
+
+                entity.Property(e => e.Code).HasMaxLength(12);
+
+                entity.Property(e => e.CompanyName).HasMaxLength(100);
+
+                entity.Property(e => e.IdQuote).HasColumnName("Id_quote");
+
+                entity.Property(e => e.QuoteDateTime).HasColumnType("datetime");
+            });
+
             modelBuilder.Entity<QuotesFromSchwab>(entity =>
             {
                 entity.HasNoKey();
@@ -1436,13 +1633,13 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Ask).HasDefaultValueSql("((0.0))");
+                entity.Property(e => e.Ask).HasDefaultValueSql("(0.0)");
 
                 entity.Property(e => e.Batchno).HasColumnName("batchno");
 
-                entity.Property(e => e.Bid).HasDefaultValueSql("((0.0))");
+                entity.Property(e => e.Bid).HasDefaultValueSql("(0.0)");
 
-                entity.Property(e => e.LastTrade).HasDefaultValueSql("((0.0))");
+                entity.Property(e => e.LastTrade).HasDefaultValueSql("(0.0)");
 
                 entity.Property(e => e.QuoteDateTime).HasColumnType("datetime");
 
@@ -1466,6 +1663,21 @@ namespace AFM_Project.Models
                     .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.QuoteDateTime).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<QuotesMa>(entity =>
+            {
+                entity.HasKey(e => e.IdQuote);
+
+                entity.ToTable("QuotesMA");
+
+                entity.Property(e => e.IdQuote).HasColumnName("Id_quote");
+
+                entity.Property(e => e.Code).HasMaxLength(12);
+
+                entity.Property(e => e.CompanyName).HasMaxLength(100);
+
+                entity.Property(e => e.QuoteDateTime).HasColumnType("datetime2(3)");
             });
 
             modelBuilder.Entity<QuotesToExclude>(entity =>
@@ -1610,6 +1822,8 @@ namespace AFM_Project.Models
                     .HasColumnName("OrderScan_interval")
                     .HasComment("In seconds");
 
+                entity.Property(e => e.Pause).HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.SodStarthour)
                     .HasColumnName("SOD_Starthour")
                     .HasComment("Time of the day to switch");
@@ -1667,11 +1881,19 @@ namespace AFM_Project.Models
 
             modelBuilder.Entity<Sp500>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("SP500");
 
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("(newid())");
+
                 entity.Property(e => e.Beta).HasColumnName("beta");
+
+                entity.Property(e => e.Eps).HasColumnName("eps");
+
+                entity.Property(e => e.FloatShares)
+                    .HasColumnName("Float_shares")
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.GicsSector)
                     .HasColumnName("gics_sector")
@@ -1682,10 +1904,6 @@ namespace AFM_Project.Models
                     .HasColumnName("gics_subsector")
                     .HasMaxLength(80)
                     .IsUnicode(false);
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.MarketCap).HasColumnName("market_cap");
 
@@ -1717,11 +1935,11 @@ namespace AFM_Project.Models
                     .ValueGeneratedOnAdd();
             });
 
-            modelBuilder.Entity<Traded2>(entity =>
+            modelBuilder.Entity<TradedOrders>(entity =>
             {
                 entity.HasNoKey();
 
-                entity.ToView("Traded2");
+                entity.ToView("Traded_Orders");
 
                 entity.Property(e => e.Bquantity).HasColumnName("BQuantity");
 
@@ -1758,9 +1976,11 @@ namespace AFM_Project.Models
                 entity.Property(e => e.TradedDate).HasColumnType("datetime");
             });
 
-            modelBuilder.Entity<TradedOrders>(entity =>
+            modelBuilder.Entity<TradedOrders1>(entity =>
             {
                 entity.HasNoKey();
+
+                entity.ToTable("TradedOrders");
 
                 entity.HasIndex(e => e.IdTraded)
                     .HasName("TradedOrders1")
@@ -1769,21 +1989,29 @@ namespace AFM_Project.Models
                 entity.HasIndex(e => new { e.TradedDate, e.IdCustomer, e.Buy, e.Ordertype })
                     .HasName("TradedOrders13");
 
+                entity.Property(e => e.BlacklistSell).HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.Bquantity).HasColumnName("BQuantity");
 
                 entity.Property(e => e.Bquote).HasColumnName("BQuote");
 
                 entity.Property(e => e.Buy).HasMaxLength(10);
 
+                entity.Property(e => e.BuyBestSave).HasMaxLength(64);
+
+                entity.Property(e => e.BuyWorstSave).HasMaxLength(64);
+
                 entity.Property(e => e.Compx)
                     .HasColumnName("COMPX")
-                    .HasDefaultValueSql("((0.0))");
+                    .HasDefaultValueSql("(0.0)");
 
                 entity.Property(e => e.Djia)
                     .HasColumnName("DJIA")
-                    .HasDefaultValueSql("((0.0))");
+                    .HasDefaultValueSql("(0.0)");
 
-                entity.Property(e => e.Executor).HasDefaultValueSql("((0))");
+                entity.Property(e => e.EarningsSell).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Executor).HasDefaultValueSql("(0)");
 
                 entity.Property(e => e.IdBuyline).HasColumnName("id_buyline");
 
@@ -1795,7 +2023,37 @@ namespace AFM_Project.Models
                     .HasColumnName("id_traded")
                     .HasDefaultValueSql("(newid())");
 
+                entity.Property(e => e.NegSavingL0).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.NegSavingL1).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.NegSavingL2).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.NegSavingL3).HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.PortfolioNo).HasColumnName("Portfolio_no");
+
+                entity.Property(e => e.QuoteLast).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.QuoteMax).HasDefaultValueSql("((-100))");
+
+                entity.Property(e => e.QuoteMinimum).HasDefaultValueSql("((100))");
+
+                entity.Property(e => e.QuoteNegL1).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.QuoteNegL2).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.QuoteNegL3).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.SavingLast).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.SavingMax).HasDefaultValueSql("((-100))");
+
+                entity.Property(e => e.SavingMaxDate).HasColumnType("smalldatetime");
+
+                entity.Property(e => e.SavingMinDate).HasColumnType("smalldatetime");
+
+                entity.Property(e => e.SavingMinimum).HasDefaultValueSql("((100))");
 
                 entity.Property(e => e.Seccommission).HasColumnName("SECCommission");
 
@@ -1803,13 +2061,15 @@ namespace AFM_Project.Models
 
                 entity.Property(e => e.Spx)
                     .HasColumnName("SPX")
-                    .HasDefaultValueSql("((0.0))");
+                    .HasDefaultValueSql("(0.0)");
 
                 entity.Property(e => e.Squantity).HasColumnName("SQuantity");
 
                 entity.Property(e => e.Squote).HasColumnName("SQuote");
 
                 entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.Property(e => e.StopLoss).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.TradedDate).HasColumnType("datetime");
             });

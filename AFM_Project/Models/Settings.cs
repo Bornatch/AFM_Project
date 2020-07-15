@@ -9,5 +9,6 @@ namespace AFM_Project.Models
         public int? CheckCmetInterval { get; set; }
         public int? SodStarthour { get; set; }
         public int? EodStarthour { get; set; }
+        public bool? Pause { get; set; }
     }
 }

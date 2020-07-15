@@ -36,7 +36,10 @@ namespace AFM_Project.Controllers
         //[Authorize]
         public async Task<ActionResult<IEnumerable<QuotesHistory>>> GetSecurityQuotesHistory(String security)
         {
-            return await _context.QuotesHistory.Where(s => s.Security == security).ToListAsync();
+            return await _context.QuotesHistory
+                .Where(s => s.Security == security)
+                .OrderBy(s => s.QuoteDateTime)
+                .ToListAsync();
         }
         /*
 

@@ -3,42 +3,39 @@ using System.Collections.Generic;
 
 namespace AFM_Project.Models
 {
-    public partial class NewTrade
+    public partial class TradedOrders1
     {
-        public Guid IdNewtrade { get; set; }
-        public string Sell { get; set; }
-        public double? Squote { get; set; }
-        public int? Squantity { get; set; }
-        public DateTime? OrderDate { get; set; }
-        public DateTime? ExpirationDate { get; set; }
-        public short? AdviseSecondMail { get; set; }
-        public short? AdviseThirdMail { get; set; }
-        public double? Cost { get; set; }
-        public short? Status { get; set; }
+        public Guid IdTraded { get; set; }
+        public Guid? IdNtslmc { get; set; }
+        public Guid? IdBuyline { get; set; }
+        public DateTime TradedDate { get; set; }
+        public int? Status { get; set; }
         public Guid? IdCustomer { get; set; }
-        public double? Dividend { get; set; }
-        public double? Split { get; set; }
-        public int? IdSeilern { get; set; }
-        public int? DoReverse { get; set; }
-        public Guid? IdPool { get; set; }
+        public string Sell { get; set; }
+        public string Buy { get; set; }
+        public int? Squantity { get; set; }
+        public int? Bquantity { get; set; }
+        public double? Squote { get; set; }
+        public double? Bquote { get; set; }
+        public double? OtherAmount { get; set; }
+        public double? BrokerCommissionSell { get; set; }
+        public double? BrokerCommissionBuy { get; set; }
+        public double? Seccommission { get; set; }
+        public int Ordertype { get; set; }
+        public int? PortfolioNo { get; set; }
         public double? Djia { get; set; }
         public double? Spx { get; set; }
         public double? Compx { get; set; }
-        public bool? SellExecuted { get; set; }
-        public bool? BuyExecuted { get; set; }
-        public int? ExecutionStatus { get; set; }
+        public int? Executor { get; set; }
+        public bool? NegSavingL0 { get; set; }
         public bool? NegSavingL1 { get; set; }
         public bool? NegSavingL2 { get; set; }
-        public bool? NegSavingL0 { get; set; }
         public bool? NegSavingL3 { get; set; }
-        public DateTime? NegSavL0time { get; set; }
         public bool? StopLoss { get; set; }
         public bool? QuoteNegL1 { get; set; }
         public bool? QuoteNegL2 { get; set; }
         public bool? QuoteNegL3 { get; set; }
         public bool? EarningsSell { get; set; }
-        public int? NbResch { get; set; }
-        public double? InitSquote { get; set; }
         public bool? BlacklistSell { get; set; }
         public double? SavingMinimum { get; set; }
         public double? QuoteMinimum { get; set; }

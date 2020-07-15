@@ -18,5 +18,6 @@ namespace AFM_Project.Models
         public double? PoolSize { get; set; }
         public int? IdSector { get; set; }
         public double? ExtraValue { get; set; }
+        public double? PoolVolatility { get; set; }
     }
 }

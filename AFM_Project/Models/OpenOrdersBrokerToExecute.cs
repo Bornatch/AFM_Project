@@ -20,7 +20,5 @@ namespace AFM_Project.Models
         public int? OrderType { get; set; }
         public string UserId { get; set; }
         public int? IdBroker { get; set; }
-        public int? IbApiorderId { get; set; }
-        public int? IbPermId { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AFM_Project.Models
 {
-    public partial class QuotesIndices
+    public partial class QuotesMa
     {
         public int IdQuote { get; set; }
         public string Code { get; set; }
@@ -13,5 +13,6 @@ namespace AFM_Project.Models
         public double? ClosePrice { get; set; }
         public DateTime? QuoteDateTime { get; set; }
         public string CompanyName { get; set; }
+        public int? Exchange { get; set; }
     }
 }

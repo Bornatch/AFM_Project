@@ -13,6 +13,5 @@ namespace AFM_Project.Models
         public double? ClosePrice { get; set; }
         public DateTime? QuoteDateTime { get; set; }
         public string CompanyName { get; set; }
-        public int? Exchange { get; set; }
     }
 }
