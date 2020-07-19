@@ -1,5 +1,5 @@
 //base connexion
 export class AppUser  {
-    userName: string = "";
+    webUserName: string = "";
     password: string = "";
   }

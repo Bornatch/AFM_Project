@@ -22,7 +22,7 @@ namespace AFM_Project.Controllers
 
         [HttpPost("login")]
         public IActionResult
-          Login([FromBody] Customer user)
+          Login([FromBody] MetaCustomer user)
         {
             IActionResult ret = null;
             AppUserAuth auth = new AppUserAuth();

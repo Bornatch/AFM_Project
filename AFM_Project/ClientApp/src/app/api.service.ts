@@ -1,8 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { SecurityService } from './shared/components/security/security.service';
 //Interfaces
 import { IQuotes } from './shared/widgets/quotes-histories/quotes-histories.component'
-import { SecurityService } from './shared/components/security/security.service';
+import { IEodData } from './shared/widgets/performences/performences.component'
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +17,15 @@ export class ApiService {
   public getQuotesHistories(security: string) {   
     return this.httpClient.get<IQuotes[]>('api/QuotesHistories/' + security);
   }
-
-  public getQuotesHistoriesSecurities() {
-    let httpOptions = new HttpHeaders()
-      .set('Authorization', 'Bearer ' +
-        this.securityService
-          .securityObject.bearerToken);
+  public getQuotesHistoriesSecurities() {    
     return this.httpClient.get<string[]>('api/QuotesHistories');
   }
+
+  //performences
+  public GetEoddata(){
+    return this.httpClient.get<IEodData[]>('api/Eoddatas')
+  }
+
 }
 
 interface ISecurities {

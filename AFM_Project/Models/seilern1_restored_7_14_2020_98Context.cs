@@ -90,8 +90,7 @@ namespace AFM_Project.Models
         public virtual DbSet<SmartLimit> SmartLimit { get; set; }
         public virtual DbSet<Sp500> Sp500 { get; set; }
         public virtual DbSet<Symbols> Symbols { get; set; }
-        public virtual DbSet<TradedOrders> TradedOrders { get; set; }
-        public virtual DbSet<TradedOrders1> TradedOrders1 { get; set; }
+        public virtual DbSet<TradedOrders> TradedOrders { get; set; }        
         public virtual DbSet<Volatilities> Volatilities { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -1974,105 +1973,7 @@ namespace AFM_Project.Models
                 entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.Property(e => e.TradedDate).HasColumnType("datetime");
-            });
-
-            modelBuilder.Entity<TradedOrders1>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("TradedOrders");
-
-                entity.HasIndex(e => e.IdTraded)
-                    .HasName("TradedOrders1")
-                    .IsClustered();
-
-                entity.HasIndex(e => new { e.TradedDate, e.IdCustomer, e.Buy, e.Ordertype })
-                    .HasName("TradedOrders13");
-
-                entity.Property(e => e.BlacklistSell).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.Bquantity).HasColumnName("BQuantity");
-
-                entity.Property(e => e.Bquote).HasColumnName("BQuote");
-
-                entity.Property(e => e.Buy).HasMaxLength(10);
-
-                entity.Property(e => e.BuyBestSave).HasMaxLength(64);
-
-                entity.Property(e => e.BuyWorstSave).HasMaxLength(64);
-
-                entity.Property(e => e.Compx)
-                    .HasColumnName("COMPX")
-                    .HasDefaultValueSql("(0.0)");
-
-                entity.Property(e => e.Djia)
-                    .HasColumnName("DJIA")
-                    .HasDefaultValueSql("(0.0)");
-
-                entity.Property(e => e.EarningsSell).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.Executor).HasDefaultValueSql("(0)");
-
-                entity.Property(e => e.IdBuyline).HasColumnName("id_buyline");
-
-                entity.Property(e => e.IdCustomer).HasColumnName("Id_customer");
-
-                entity.Property(e => e.IdNtslmc).HasColumnName("id_NTSLMC");
-
-                entity.Property(e => e.IdTraded)
-                    .HasColumnName("id_traded")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.NegSavingL0).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.NegSavingL1).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.NegSavingL2).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.NegSavingL3).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.PortfolioNo).HasColumnName("Portfolio_no");
-
-                entity.Property(e => e.QuoteLast).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.QuoteMax).HasDefaultValueSql("((-100))");
-
-                entity.Property(e => e.QuoteMinimum).HasDefaultValueSql("((100))");
-
-                entity.Property(e => e.QuoteNegL1).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.QuoteNegL2).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.QuoteNegL3).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.SavingLast).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.SavingMax).HasDefaultValueSql("((-100))");
-
-                entity.Property(e => e.SavingMaxDate).HasColumnType("smalldatetime");
-
-                entity.Property(e => e.SavingMinDate).HasColumnType("smalldatetime");
-
-                entity.Property(e => e.SavingMinimum).HasDefaultValueSql("((100))");
-
-                entity.Property(e => e.Seccommission).HasColumnName("SECCommission");
-
-                entity.Property(e => e.Sell).HasMaxLength(10);
-
-                entity.Property(e => e.Spx)
-                    .HasColumnName("SPX")
-                    .HasDefaultValueSql("(0.0)");
-
-                entity.Property(e => e.Squantity).HasColumnName("SQuantity");
-
-                entity.Property(e => e.Squote).HasColumnName("SQuote");
-
-                entity.Property(e => e.Status).HasColumnName("status");
-
-                entity.Property(e => e.StopLoss).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.TradedDate).HasColumnType("datetime");
-            });
+            });          
 
             modelBuilder.Entity<Volatilities>(entity =>
             {

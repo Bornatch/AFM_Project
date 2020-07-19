@@ -33,8 +33,7 @@ namespace AFM_Project
             // Register Jwt as the Authentication service
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme =
-                  "JwtBearer";
+                options.DefaultAuthenticateScheme = "JwtBearer";
                 options.DefaultChallengeScheme = "JwtBearer";
             })
             .AddJwtBearer("JwtBearer", jwtBearerOptions =>
@@ -91,17 +90,18 @@ namespace AFM_Project
 
             app.UseRouting();
 
-            //ajout auth
-            app.UseAuthorization();
+            //ajout auth            
             app.UseAuthentication();
+            app.UseAuthorization();          
 
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
-
+           
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
@@ -113,11 +113,7 @@ namespace AFM_Project
                 {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
-            });
-
-            
-            //app.UseMvc();
-
+            });     
         }
 
         public JwtSettings GetJwtSettings()

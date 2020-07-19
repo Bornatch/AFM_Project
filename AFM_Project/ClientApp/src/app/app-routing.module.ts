@@ -32,8 +32,6 @@ class AuthGuard implements CanActivate {
 
   constructor
     (private securityService: SecurityService, private router : Router) { 
-      console.log('app-routing');
-      console.log(securityService.securityObject)
     }
 }
 

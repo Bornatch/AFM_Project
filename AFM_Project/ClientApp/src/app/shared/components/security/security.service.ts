@@ -26,15 +26,13 @@ export class SecurityService {
   login(entity: AppUser):
     Observable<AppUserAuth> {
     this.resetSecurityObject();
-    console.log(this.apiUrl)
     return this.http.post<AppUserAuth>(
       this.apiUrl + "login",
       entity, httpOptions).pipe(
       tap(resp => {
         // Use object assign to update the 
         //         current object
-        Object.assign(this.securityObject, resp);
-  
+        Object.assign(this.securityObject, resp);  
         // Store into local storage
         localStorage.setItem("bearerToken", 
             this.securityObject.bearerToken);
@@ -46,7 +44,7 @@ export class SecurityService {
   }
 
   resetSecurityObject(): void {
-    this.securityObject.userName = "";
+    this.securityObject.webUserName = "";
     this.securityObject.bearerToken = "";
     this.securityObject.isAuthenticated = false;
     this.securityObject.isAdmin = false;

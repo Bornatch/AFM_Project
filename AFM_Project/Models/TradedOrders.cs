@@ -27,5 +27,30 @@ namespace AFM_Project.Models
         public double? Spx { get; set; }
         public double? Compx { get; set; }
         public int? Executor { get; set; }
+        public bool? NegSavingL0 { get; set; }
+        public bool? NegSavingL1 { get; set; }
+        public bool? NegSavingL2 { get; set; }
+        public bool? NegSavingL3 { get; set; }
+        public bool? StopLoss { get; set; }
+        public bool? QuoteNegL1 { get; set; }
+        public bool? QuoteNegL2 { get; set; }
+        public bool? QuoteNegL3 { get; set; }
+        public bool? EarningsSell { get; set; }
+        public bool? BlacklistSell { get; set; }
+        public double? SavingMinimum { get; set; }
+        public double? QuoteMinimum { get; set; }
+        public double? SavingMax { get; set; }
+        public double? SavingLast { get; set; }
+        public double? QuoteMax { get; set; }
+        public double? QuoteLast { get; set; }
+        public DateTime? SavingMaxDate { get; set; }
+        public DateTime? SavingMinDate { get; set; }
+        public double? ExecutedSaving { get; set; }
+        public int? DaySinceCreation { get; set; }
+        public int? ExecutionType { get; set; }
+        public double? SavingVsBest { get; set; }
+        public string BuyBestSave { get; set; }
+        public string BuyWorstSave { get; set; }
+        public double? AverageSaving { get; set; }
     }
 }

@@ -20,17 +20,17 @@ namespace AFM_Project.Models
 
         //code adapté de https://www.codemag.com/Article/1809031/Security-in-Angular-Part-2
         public AppUserAuth
-          AuthenticateUser(Customer user)
+          AuthenticateUser(MetaCustomer user)
         {
             AppUserAuth ret = new AppUserAuth();
-            Customer authUser = null;
+            MetaCustomer authUser = null;
 
             using (var db = new SeilernContext())
             {
                 // Attempt to validate user
-                authUser = db.Customer.Where(
-                  u => u.UserName.ToLower()
-                       == user.UserName.ToLower()
+                authUser = db.MetaCustomer.Where(
+                  u => u. WebUserName.ToLower()
+                       == user.WebUserName.ToLower()
                     && u.Password
                        == user.Password).FirstOrDefault();
             }
@@ -68,14 +68,14 @@ namespace AFM_Project.Models
         }
 
         protected AppUserAuth
-          BuildUserAuthObject(Customer authUser)
+          BuildUserAuthObject(MetaCustomer authUser)
         {
             AppUserAuth ret = new AppUserAuth();
             List<ClaimUser> claims =
               new List<ClaimUser>();
 
             // Set User Properties
-            ret.UserName = authUser.UserName;
+            ret.UserName = authUser.WebUserName;
             ret.IsAuthenticated = true;
             ret.BearerToken = BuildJwtToken(ret);
 
@@ -130,7 +130,10 @@ namespace AFM_Project.Models
             jwtClaims.Add(new Claim("isAdmin",
                 authUser.IsAdmin.ToString()
                   .ToLower()));
-            
+            jwtClaims.Add(new Claim("isUser",
+               authUser.IsUser.ToString()
+                 .ToLower()));
+
 
             // Create the JwtSecurityToken object
             var token = new JwtSecurityToken(

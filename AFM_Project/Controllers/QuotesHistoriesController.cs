@@ -41,6 +41,7 @@ namespace AFM_Project.Controllers
                 .OrderBy(s => s.QuoteDateTime)
                 .ToListAsync();
         }
+
         /*
 
         // GET: api/QuotesHistories/5
@@ -56,7 +57,7 @@ namespace AFM_Project.Controllers
 
             return quotesHistory;
         }
-        */
+        
 
         // PUT: api/QuotesHistories/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -122,5 +123,7 @@ namespace AFM_Project.Controllers
         {
             return _context.QuotesHistory.Any(e => e.Id == id);
         }
+        */
+
     }
 }
