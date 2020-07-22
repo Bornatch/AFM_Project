@@ -13,8 +13,10 @@
     </mat-autocomplete>
   </mat-form-field>
 </form>
+<ng-container *ngIf="chartOptions">
 <highcharts-chart [Highcharts]="Highcharts"                 
                   [options]="chartOptions"
                   [constructorType]="chartConstructor"
                   style="width: 100%; height: 400px; display: block;">
 </highcharts-chart>
+</ng-container>

@@ -4,13 +4,16 @@ import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './components/security/login.component'
-import { MatAutocompleteModule, MatInputModule , MatDividerModule, MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule, MatListModule } from '@angular/material';
+import { MatAutocompleteModule, MatInputModule, MatDividerModule, MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule, MatListModule } from '@angular/material';
 import { FlexibleConnectedPositionStrategy } from '@angular/cdk/overlay';
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HighchartsChartModule } from 'highcharts-angular';
+//widget
 import { QuotesHistoriesComponent } from './widgets/quotes-histories/quotes-histories.component';
+import { PerformencesComponent } from './widgets/performences/performences.component';
+import { PerformencesIndexComponent } from './widgets/performences-index/performences-index.component';
 
 
 
@@ -21,6 +24,8 @@ import { QuotesHistoriesComponent } from './widgets/quotes-histories/quotes-hist
     FooterComponent,
     LoginComponent,
     QuotesHistoriesComponent,
+    PerformencesComponent,
+    PerformencesIndexComponent
 
   ],
   imports: [
@@ -47,7 +52,10 @@ import { QuotesHistoriesComponent } from './widgets/quotes-histories/quotes-hist
     //security
     LoginComponent,
     // widgets
-    QuotesHistoriesComponent
+    QuotesHistoriesComponent,
+    PerformencesComponent,
+    PerformencesIndexComponent
+
   ]
 })
 export class SharedModule { }

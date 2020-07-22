@@ -4,6 +4,7 @@ import { SecurityService } from './shared/components/security/security.service';
 //Interfaces
 import { IQuotes } from './shared/widgets/quotes-histories/quotes-histories.component'
 import { IEodData } from './shared/widgets/performences/performences.component'
+import { IEodIndex } from './shared/widgets/performences-index/performences-index.component'
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +22,14 @@ export class ApiService {
     return this.httpClient.get<string[]>('api/QuotesHistories');
   }
 
-  //performences
+  //performences portfolio
   public GetEoddata(){
     return this.httpClient.get<IEodData[]>('api/Eoddatas')
+  }
+
+  //performences Index
+  public GetEodIndexes(){
+    return this.httpClient.get<IEodIndex[]>('api/Eodindexes')
   }
 
 }

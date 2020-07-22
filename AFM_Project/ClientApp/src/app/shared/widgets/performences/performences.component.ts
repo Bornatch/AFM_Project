@@ -3,7 +3,7 @@ import * as Highcharts from 'highcharts';
 import { ApiService } from '../../../api.service';
 
 @Component({
-  selector: 'app-performences',
+  selector: 'app-widget-performences',
   templateUrl: './performences.component.html',
   styleUrls: ['./performences.component.scss']
 })
@@ -71,7 +71,7 @@ export class PerformencesComponent implements OnInit {
   }
 
   private success(data) {
-    var name = this.url.match(/(msft|aapl|goog)/)[0].toUpperCase();
+    //var name = this.url.match(/(msft|aapl|goog)/)[0].toUpperCase();
     var i = this.names.indexOf(name);
     this.seriesOptions[i] = {
       name: name,
