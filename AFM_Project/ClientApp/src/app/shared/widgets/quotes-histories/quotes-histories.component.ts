@@ -1,10 +1,8 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnChanges, SimpleChanges } from '@angular/core';
 import * as Highcharts from 'highcharts/highstock';
-import StockModule from 'highcharts/modules/stock';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith, distinct, switchMap } from 'rxjs/operators';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import { ApiService } from '../../../api.service';
 
 @Component({
@@ -13,15 +11,15 @@ import { ApiService } from '../../../api.service';
   styleUrls: ['./quotes-histories.component.scss']
 })
 
-export class QuotesHistoriesComponent implements  OnChanges {
+export class QuotesHistoriesComponent implements OnChanges {
 
   //Chart info
   Highcharts = Highcharts;
   chartConstructor = 'stockChart';
   chartOptions: {};
   selectedStock: string = 'AAPL';
-  
- //charts'data 
+
+  //charts'data 
   quotes: IQuotes[];
   datas = new Array<any>();
   myControl = new FormControl();
@@ -30,24 +28,18 @@ export class QuotesHistoriesComponent implements  OnChanges {
   constructor(private apiService: ApiService) {
   }
   ngOnChanges(changes: SimpleChanges) {
-    //Selector    
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      switchMap(value => { return  this._filter(value || '') })
-    );      
-     // build chart
-     this.setChart();    
-  }  
+   
+  }
 
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
-      switchMap(value => { return  this._filter(value || '') })
-    );      
-     // build chart
-     this.setChart();    
-  }  
-  
+      switchMap(value => { return this._filter(value || '') })
+    );
+    // build chart
+    this.setChart();
+  }
+
   private _filter(value: string): Observable<any[]> {
     const filterValue = value.toLowerCase();
 
@@ -60,15 +52,15 @@ export class QuotesHistoriesComponent implements  OnChanges {
       )
   }
 
-  onSelectedStock(option:string){
+  onSelectedStock(option: string) {
     this.selectedStock = option;
     this.setChart();
   }
 
-  private setChart(){
+  private setChart() {
     this.apiService.getQuotesHistories(this.selectedStock).subscribe(result => {
       this.quotes = result;
-      
+
       //Chart
       this.setData();
       this.chartOptions = {
@@ -85,7 +77,7 @@ export class QuotesHistoriesComponent implements  OnChanges {
             valueDecimals: 2
           }
         }]
-      };   
+      };
     }, error => console.error(error));
   }
 

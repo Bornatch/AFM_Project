@@ -7,6 +7,7 @@ import { AdminDashboardComponent } from './modules/admin-dashboard/admin-dashboa
 import { PagesComponent } from './modules/pages/pages.component';
 import { Observable } from 'rxjs';
 import { SecurityService } from './shared/components/security/security.service';
+import { StatisticsPagesComponent } from './modules/statistics-pages/statistics-pages.component';
 
 @Injectable()
 class AuthGuard implements CanActivate {
@@ -46,12 +47,17 @@ const routes: Routes = [{
     path: '',
     component: AdminDashboardComponent,
     canActivate: [AuthGuard],
-    data: { claimName: 'isAdmin' }
+    data: { claimName: 'isAuthenticated' }
   }, {
     path: 'pages',
     component: PagesComponent,
     canActivate: [AuthGuard],
-    data: { claimName: 'isAdmin' }
+    data: { claimName: 'isAuthenticated' }
+  },  {
+    path: 'statistics',
+    component: StatisticsPagesComponent,
+    canActivate: [AuthGuard],
+    data: { claimName: 'isAuthenticated' }
   }],
 }]
 

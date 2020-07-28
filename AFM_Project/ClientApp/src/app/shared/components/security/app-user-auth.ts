@@ -6,5 +6,6 @@ export class AppUserAuth {
     isAuthenticated: boolean = false;
     isAdmin: boolean = false;  
     isUser : boolean = false;
+    idMetaUser : string = "";
   }
      

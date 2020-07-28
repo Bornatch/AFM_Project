@@ -7,12 +7,14 @@ import { PagesComponent } from '../../modules/pages/pages.component';
 import { SharedModule } from '../../shared/shared.module';
 import { MatSidenavModule, MatDividerModule} from '@angular/material'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StatisticsPagesComponent } from 'src/app/modules/statistics-pages/statistics-pages.component';
  
 @NgModule({
   declarations: [
     DefaultComponent,
     AdminDashboardComponent,
-    PagesComponent,    
+    PagesComponent,  
+    StatisticsPagesComponent  
   ],
   imports: [
     CommonModule,

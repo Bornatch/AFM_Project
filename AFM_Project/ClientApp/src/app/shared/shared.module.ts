@@ -4,7 +4,10 @@ import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './components/security/login.component'
-import { MatAutocompleteModule, MatInputModule, MatDividerModule, MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule, MatListModule } from '@angular/material';
+import { MatAutocompleteModule, MatInputModule, 
+  MatDividerModule, MatToolbarModule, MatIconModule, 
+  MatButtonModule, MatMenuModule, MatListModule,
+ MatCheckboxModule,} from '@angular/material';
 import { FlexibleConnectedPositionStrategy } from '@angular/cdk/overlay';
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { RouterModule } from '@angular/router';
@@ -14,6 +17,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { QuotesHistoriesComponent } from './widgets/quotes-histories/quotes-histories.component';
 import { PerformencesComponent } from './widgets/performences/performences.component';
 import { PerformencesIndexComponent } from './widgets/performences-index/performences-index.component';
+import { StatisticComponent } from './widgets/statistic/statistic.component';
 
 
 
@@ -25,7 +29,8 @@ import { PerformencesIndexComponent } from './widgets/performences-index/perform
     LoginComponent,
     QuotesHistoriesComponent,
     PerformencesComponent,
-    PerformencesIndexComponent
+    PerformencesIndexComponent,
+    StatisticComponent
 
   ],
   imports: [
@@ -42,6 +47,7 @@ import { PerformencesIndexComponent } from './widgets/performences-index/perform
     RouterModule,
     MatAutocompleteModule,
     MatInputModule,
+    MatCheckboxModule,
     HighchartsChartModule
   ],
   exports: [
@@ -54,8 +60,8 @@ import { PerformencesIndexComponent } from './widgets/performences-index/perform
     // widgets
     QuotesHistoriesComponent,
     PerformencesComponent,
-    PerformencesIndexComponent
-
+    PerformencesIndexComponent,
+    StatisticComponent
   ]
 })
 export class SharedModule { }

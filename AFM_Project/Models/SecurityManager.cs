@@ -6,6 +6,7 @@ using System.Text;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace AFM_Project.Models
 {
@@ -19,8 +20,7 @@ namespace AFM_Project.Models
         }
 
         //code adapté de https://www.codemag.com/Article/1809031/Security-in-Angular-Part-2
-        public AppUserAuth
-          AuthenticateUser(MetaCustomer user)
+        public AppUserAuth AuthenticateUser(MetaCustomer user)
         {
             AppUserAuth ret = new AppUserAuth();
             MetaCustomer authUser = null;
@@ -39,19 +39,20 @@ namespace AFM_Project.Models
             {
                 // Build User Security Object
                 ret = BuildUserAuthObject(authUser);
+                // attach user to context on successful jwt validation
+                //context.Items["MetaCustomer"] = user;
             }
 
             return ret;
         }
 
-        protected List<ClaimUser>
-          GetUserClaims(Customer authUser)
+        protected List<ClaimUser> GetUserClaims(MetaCustomer authUser)
         {
             AppUserAuth ret = new AppUserAuth();
             List<ClaimUser> claims =
               new List<ClaimUser>();
             // Set User Properties
-            ret.UserName = authUser.UserName;
+            ret.UserName = authUser.WebUserName;
             ret.IsAuthenticated = true;
             ret.BearerToken = BuildJwtToken(ret);
             List<ClaimUser> list =
@@ -60,13 +61,14 @@ namespace AFM_Project.Models
             using (var db = new SeilernContext())
             {
                 list = db.ClaimUser.Where(
-                       u => u.IdMetaCustomer == authUser.IdCustomer)
+                       u => u.IdMetaCustomer == authUser.IdMetaCustomer)
                        .ToList();
             }
 
             return list;
         }
 
+       
         protected AppUserAuth
           BuildUserAuthObject(MetaCustomer authUser)
         {
@@ -78,35 +80,31 @@ namespace AFM_Project.Models
             ret.UserName = authUser.WebUserName;
             ret.IsAuthenticated = true;
             ret.BearerToken = BuildJwtToken(ret);
+            ret.IdMetaUser = authUser.IdMetaCustomer;
+          
+            // Get all claims for this user
+            claims = GetUserClaims(authUser);
 
-            ret.IsAdmin = true;
-
-            /*
-             * // Get all claims for this user
-            claims = GetUserClaims(authUser);           
-            
             // Loop through all claims and 
             // set properties of user object
             foreach (ClaimUser claim in claims)
-            {
-                //problème de valeur null
-                try
-                {                   
-                    typeof(AppUserAuth)
-                      .GetProperty(claim.ClaimType)
-                        .SetValue(ret, Convert.ToBoolean(
-                          //claim.ClaimValue), null);
-                          claim.ClaimValue));
-                }
-                catch
+            {                          
+                //ajouter un case pour tous les options possibles si ajout 
+                switch (claim.ClaimType)
                 {
-                    
-                }
-            }
-
-            */
+                    case nameof(ret.IsAdmin):
+                            ret.IsAdmin = Convert.ToBoolean(claim.ClaimValue);
+                        break;
+                    case nameof(ret.IsUser):
+                        ret.IsUser = Convert.ToBoolean(claim.ClaimValue);
+                        break;
+                }                   
+            }    
+            
             return ret;
         }
+
+
 
         protected string BuildJwtToken(AppUserAuth authUser)
         {

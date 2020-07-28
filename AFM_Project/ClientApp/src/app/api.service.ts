@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SecurityService } from './shared/components/security/security.service';
 //Interfaces
 import { IQuotes } from './shared/widgets/quotes-histories/quotes-histories.component'
-import { IEodData } from './shared/widgets/performences/performences.component'
+import { IPortfolio, IPortfolioName } from './shared/widgets/performences/performences.component'
 import { IEodIndex } from './shared/widgets/performences-index/performences-index.component'
 
 @Injectable({
@@ -15,20 +15,24 @@ export class ApiService {
     private securityService: SecurityService) { }
 
   //QuotesHistories Controllers
-  public getQuotesHistories(security: string) {   
+  public getQuotesHistories(security: string) {
     return this.httpClient.get<IQuotes[]>('api/QuotesHistories/' + security);
   }
-  public getQuotesHistoriesSecurities() {    
+  public getQuotesHistoriesSecurities() {
     return this.httpClient.get<string[]>('api/QuotesHistories');
   }
 
   //performences portfolio
-  public GetEoddata(){
-    return this.httpClient.get<IEodData[]>('api/Eoddatas')
+  public GetUserPortfolio(idMetaUser : string) {
+    return this.httpClient.get<IPortfolio[]>('api/Eoddatas/getUserPortfolioPerf/' + idMetaUser)
+  }
+
+  public GetUserPortfoliosName(idMetaUser : string) {
+    return this.httpClient.get<IPortfolioName[]>('api/Customers/' + idMetaUser );
   }
 
   //performences Index
-  public GetEodIndexes(){
+  public GetEodIndexes() {
     return this.httpClient.get<IEodIndex[]>('api/Eodindexes')
   }
 

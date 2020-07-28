@@ -18,6 +18,6 @@ namespace AFM_Project.Models
         public bool IsAuthenticated { get; set; }
         public bool IsAdmin { get; set; }
         public bool IsUser { get; set; }
-
+        public Guid IdMetaUser { get; internal set; }
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AFM_Project.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class QuotesHistoriesController : ControllerBase
@@ -23,17 +24,18 @@ namespace AFM_Project.Controllers
 
         // GET: api/QuotesHistories using for distinct securities
         [HttpGet]
-        //[Authorize]
+       // [Authorize]
         public async Task<ActionResult<IEnumerable<String>>> GetQuotesHistory()
         {
+
             //return await _context.QuotesHistory.ToListAsync();
             return await _context.QuotesHistory.Select(s => s.Security).Distinct().ToListAsync();
         }
 
 
         // GET: api/QuotesHistories/AMZN
-        [HttpGet("{security}")]
         //[Authorize]
+        [HttpGet("{security}")]        
         public async Task<ActionResult<IEnumerable<QuotesHistory>>> GetSecurityQuotesHistory(String security)
         {
             return await _context.QuotesHistory

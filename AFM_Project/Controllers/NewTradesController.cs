@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AFM_Project.Models;
+using Microsoft.AspNetCore.Http.Connections;
 
 namespace AFM_Project.Controllers
 {
@@ -27,93 +28,32 @@ namespace AFM_Project.Controllers
             return await _context.NewTrade.ToListAsync();
         }
 
-        // GET: api/NewTrades/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<NewTrade>> GetNewTrade(Guid id)
+        [HttpGet("getUserPortfolioStat/{id_meta}")]
+        public async Task<ActionResult<IEnumerable<Object>>> getPortfolioStat(Guid id_meta)
         {
-            var newTrade = await _context.NewTrade.FindAsync(id);
-
-            if (newTrade == null)
-            {
-                return NotFound();
-            }
-
-            return newTrade;
+            return await _context.TradedOrders
+                // si besoin des information de NewTrade :
+                .Join(_context.NewTrade, t => t.IdNtslmc, nt => nt.IdNewtrade, 
+                    (t, nt) => new { t.TradedDate, t.Sell, t.ExecutedSaving, t.DaySinceCreation, t.IdCustomer, t.StopLoss
+                ,nt.Dividend})
+                .Join(_context.Sp500, a=> a.Sell, sp => sp.Symbol,
+                    (a, sp) => new {a, sp.GicsSector})
+                .Join(_context.Customer, b=> b.a.IdCustomer, cus => cus.IdCustomer,
+                    (b,cus) => new {b, cus.IdCustomer, cus.IdMetaCustomer})
+                .Where(c => c.IdMetaCustomer == id_meta)
+                .Select(data => new
+                {
+                    data.b.a.IdCustomer,
+                    data.b.a.ExecutedSaving,
+                    data.b.a.Sell,
+                    data.b.a.StopLoss,
+                    data.b.a.TradedDate,
+                    data.b.a.DaySinceCreation,
+                    data.b.GicsSector
+                })
+                .ToListAsync();         
         }
 
-        // PUT: api/NewTrades/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutNewTrade(Guid id, NewTrade newTrade)
-        {
-            if (id != newTrade.IdNewtrade)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(newTrade).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!NewTradeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/NewTrades
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<NewTrade>> PostNewTrade(NewTrade newTrade)
-        {
-            _context.NewTrade.Add(newTrade);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (NewTradeExists(newTrade.IdNewtrade))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetNewTrade", new { id = newTrade.IdNewtrade }, newTrade);
-        }
-
-        // DELETE: api/NewTrades/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<NewTrade>> DeleteNewTrade(Guid id)
-        {
-            var newTrade = await _context.NewTrade.FindAsync(id);
-            if (newTrade == null)
-            {
-                return NotFound();
-            }
-
-            _context.NewTrade.Remove(newTrade);
-            await _context.SaveChangesAsync();
-
-            return newTrade;
-        }
 
         private bool NewTradeExists(Guid id)
         {

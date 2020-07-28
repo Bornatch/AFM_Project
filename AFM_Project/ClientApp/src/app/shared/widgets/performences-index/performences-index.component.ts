@@ -22,10 +22,6 @@ export class PerformencesIndexComponent implements OnInit {
   serieDjia = []
   serieSpx = []
   serieDTX = []
-  //myControl = new FormControl();
-  //filteredOptions: Observable<string[]>;
-
-
 
   constructor(private apiService: ApiService) { }
 
@@ -72,14 +68,14 @@ export class PerformencesIndexComponent implements OnInit {
     this.apiService.GetEodIndexes().subscribe(result => {
       this.eodIndex = result;
       this.setData();
-
     }, error => console.error(error))
 
 
   }
+
+  //mettre <= et monter le if 
   setData() {
     for (let index = 0; index < this.eodIndex.length; index++) {
-
       this.seriesOptions[0] = {
         name: 'DJIA',
         data: this.serieDjia.push([
@@ -113,6 +109,7 @@ export class PerformencesIndexComponent implements OnInit {
           name: 'DTX',
           data: this.serieDTX
         }
+        console.log(this.seriesOptions)
 
         this.setChart();
 

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using AFM_Project.Models;
 using System;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AFM_Project
 {
@@ -31,12 +32,12 @@ namespace AFM_Project
             services.AddSingleton<JwtSettings>(settings);
 
             // Register Jwt as the Authentication service
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = "JwtBearer";
-                options.DefaultChallengeScheme = "JwtBearer";
+            services.AddAuthentication(opt => {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer("JwtBearer", jwtBearerOptions =>
+
+             .AddJwtBearer("JwtBearer", jwtBearerOptions =>
             {
                 jwtBearerOptions.TokenValidationParameters =
                   new TokenValidationParameters
@@ -56,10 +57,12 @@ namespace AFM_Project
                     };
             });
 
+            //get User
+            services.AddHttpContextAccessor();
 
             services.AddDbContext<SeilernContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SeilernDB")));
 
-            services.AddControllersWithViews();
+            services.AddControllers();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

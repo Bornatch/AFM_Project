@@ -14,29 +14,37 @@ export class LoginComponent implements OnChanges {
 
   user: AppUser = new AppUser();
   isLog: boolean = false;
-  @Input() securityObject: AppUserAuth = new AppUserAuth /*{ "userName" : '',
-  "bearerToken" :'',
-  "isAuthenticated": false,
-  "isAdmin": false
-};*/
+
+  //déclaration si première connexion
+  @Input() securityObject: AppUserAuth
+
   @Output() logUser: EventEmitter<AppUserAuth> = new EventEmitter<AppUserAuth>();
   returnUrl: string;
 
   constructor(private _securityService: SecurityService,
     private route: ActivatedRoute,
-   private router: Router) { }
-   
+    private router: Router) {
+
+    this._securityService.messageSecurity.subscribe((message: AppUserAuth) => {
+      this.securityObject = message;
+    });
+
+    if (this.securityObject == null){
+      this.securityObject = new AppUserAuth
+    }      
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
   }
 
   ngOnInit() {
     this.securityObject.isAuthenticated = false;
-    this.returnUrl = 
-    this.route.snapshot
-      .queryParamMap.get('returnUrl');
+    this.returnUrl =
+      this.route.snapshot
+        .queryParamMap.get('returnUrl');
   }
 
-  sendMessage(): void{
+  sendMessage(): void {
     this._securityService.messageSecurity.next(this.securityObject)
   }
 
@@ -46,7 +54,7 @@ export class LoginComponent implements OnChanges {
         this.securityObject = resp;
         if (this.returnUrl) {
           this.router
-           .navigateByUrl(this.returnUrl);
+            .navigateByUrl(this.returnUrl);
         }
       }, () => {
         // Display error message

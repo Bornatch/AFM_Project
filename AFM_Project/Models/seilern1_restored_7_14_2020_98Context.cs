@@ -97,7 +97,6 @@ namespace AFM_Project.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Data Source=BORNATCH-LENOVO\\SQLEXPRESS;Initial Catalog=seilern1_restored_7_14_2020_98;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }
         }
@@ -1938,41 +1937,43 @@ namespace AFM_Project.Models
             {
                 entity.HasNoKey();
 
-                entity.ToView("Traded_Orders");
+                entity.ToTable("TradedOrders");
 
-                entity.Property(e => e.Bquantity).HasColumnName("BQuantity");
-
-                entity.Property(e => e.Bquote).HasColumnName("BQuote");
-
+                entity.Property(e => e.IdTraded).HasColumnName("id_traded");
+                entity.Property(e => e.IdNtslmc).HasColumnName("id_NTSLMC");
+                entity.Property(e => e.IdBuyline).HasColumnName("id_buyline");
+                entity.Property(e => e.TradedDate).HasColumnType("datetime");
+                entity.Property(e => e.Status).HasColumnName("status");
+                entity.Property(e => e.IdCustomer).HasColumnName("Id_customer");
+                entity.Property(e => e.Sell).HasMaxLength(10);
                 entity.Property(e => e.Buy).HasMaxLength(10);
+                entity.Property(e => e.Squantity).HasColumnName("SQuantity");
+                entity.Property(e => e.Bquantity).HasColumnName("BQuantity");
+                entity.Property(e => e.Squote).HasColumnName("SQuote"); 
+                entity.Property(e => e.Bquote).HasColumnName("BQuote");
+                entity.Property(e => e.OtherAmount).HasColumnName("OtherAmount");
+                entity.Property(e => e.ExecutedSaving).HasColumnName("ExecutedSaving");
+                entity.Property(e => e.DaySinceCreation).HasColumnName("DaySinceCreation");
+                entity.Property(e => e.StopLoss).HasColumnName("StopLoss");
 
                 entity.Property(e => e.Compx).HasColumnName("COMPX");
 
-                entity.Property(e => e.Djia).HasColumnName("DJIA");
-
-                entity.Property(e => e.IdBuyline).HasColumnName("id_buyline");
-
-                entity.Property(e => e.IdCustomer).HasColumnName("Id_customer");
-
-                entity.Property(e => e.IdNtslmc).HasColumnName("id_NTSLMC");
-
-                entity.Property(e => e.IdTraded).HasColumnName("id_traded");
+                entity.Property(e => e.Djia).HasColumnName("DJIA");       
+                
 
                 entity.Property(e => e.PortfolioNo).HasColumnName("Portfolio_no");
 
                 entity.Property(e => e.Seccommission).HasColumnName("SECCommission");
 
-                entity.Property(e => e.Sell).HasMaxLength(10);
+                
 
                 entity.Property(e => e.Spx).HasColumnName("SPX");
 
-                entity.Property(e => e.Squantity).HasColumnName("SQuantity");
+                
 
-                entity.Property(e => e.Squote).HasColumnName("SQuote");
+                
 
-                entity.Property(e => e.Status).HasColumnName("status");
-
-                entity.Property(e => e.TradedDate).HasColumnType("datetime");
+                
             });          
 
             modelBuilder.Entity<Volatilities>(entity =>
