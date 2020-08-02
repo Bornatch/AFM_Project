@@ -7,8 +7,7 @@ import { LoginComponent } from './components/security/login.component'
 import { MatAutocompleteModule, MatInputModule, 
   MatDividerModule, MatToolbarModule, MatIconModule, 
   MatButtonModule, MatMenuModule, MatListModule,
- MatCheckboxModule,} from '@angular/material';
-import { FlexibleConnectedPositionStrategy } from '@angular/cdk/overlay';
+ MatCheckboxModule, MatRadioModule, MatTableModule} from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,8 +17,6 @@ import { QuotesHistoriesComponent } from './widgets/quotes-histories/quotes-hist
 import { PerformencesComponent } from './widgets/performences/performences.component';
 import { PerformencesIndexComponent } from './widgets/performences-index/performences-index.component';
 import { StatisticComponent } from './widgets/statistic/statistic.component';
-
-
 
 @NgModule({
   declarations: [
@@ -31,7 +28,6 @@ import { StatisticComponent } from './widgets/statistic/statistic.component';
     PerformencesComponent,
     PerformencesIndexComponent,
     StatisticComponent
-
   ],
   imports: [
     CommonModule,
@@ -48,6 +44,8 @@ import { StatisticComponent } from './widgets/statistic/statistic.component';
     MatAutocompleteModule,
     MatInputModule,
     MatCheckboxModule,
+    MatRadioModule,
+    MatTableModule,
     HighchartsChartModule
   ],
   exports: [

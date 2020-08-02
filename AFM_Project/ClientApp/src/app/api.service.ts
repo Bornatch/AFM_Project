@@ -5,6 +5,7 @@ import { SecurityService } from './shared/components/security/security.service';
 import { IQuotes } from './shared/widgets/quotes-histories/quotes-histories.component'
 import { IPortfolio, IPortfolioName } from './shared/widgets/performences/performences.component'
 import { IEodIndex } from './shared/widgets/performences-index/performences-index.component'
+import { ITradedStats } from './shared/widgets/statistic/statistic.component';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,11 @@ export class ApiService {
   //performences Index
   public GetEodIndexes() {
     return this.httpClient.get<IEodIndex[]>('api/Eodindexes')
+  }
+
+  // Statistics
+  public getUserPortfolioStat(idMetaUser : string) {
+    return this.httpClient.get<ITradedStats[]>('api/NewTrades/getUserPortfolioStat/'+ idMetaUser)
   }
 
 }

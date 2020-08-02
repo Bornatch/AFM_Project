@@ -34,16 +34,17 @@ namespace AFM_Project.Controllers
             return await _context.TradedOrders
                 // si besoin des information de NewTrade :
                 .Join(_context.NewTrade, t => t.IdNtslmc, nt => nt.IdNewtrade, 
-                    (t, nt) => new { t.TradedDate, t.Sell, t.ExecutedSaving, t.DaySinceCreation, t.IdCustomer, t.StopLoss
+                    (t, nt) => new { t.TradedDate, t.Sell, t.ExecutedSaving, t.DaySinceCreation, t.IdCustomer, t.StopLoss, t.PortfolioNo
                 ,nt.Dividend})
                 .Join(_context.Sp500, a=> a.Sell, sp => sp.Symbol,
                     (a, sp) => new {a, sp.GicsSector})
                 .Join(_context.Customer, b=> b.a.IdCustomer, cus => cus.IdCustomer,
-                    (b,cus) => new {b, cus.IdCustomer, cus.IdMetaCustomer})
+                    (b,cus) => new {b, cus.IdCustomer, cus.IdMetaCustomer, cus.UserName})
                 .Where(c => c.IdMetaCustomer == id_meta)
                 .Select(data => new
                 {
                     data.b.a.IdCustomer,
+                    data.UserName,
                     data.b.a.ExecutedSaving,
                     data.b.a.Sell,
                     data.b.a.StopLoss,
@@ -51,6 +52,7 @@ namespace AFM_Project.Controllers
                     data.b.a.DaySinceCreation,
                     data.b.GicsSector
                 })
+                .OrderBy(data => data.TradedDate)
                 .ToListAsync();         
         }
 
