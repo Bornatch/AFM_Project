@@ -48,13 +48,7 @@ namespace AFM_Project.Models
 
         protected List<ClaimUser> GetUserClaims(MetaCustomer authUser)
         {
-            AppUserAuth ret = new AppUserAuth();
-            List<ClaimUser> claims =
-              new List<ClaimUser>();
-            // Set User Properties
-            ret.UserName = authUser.WebUserName;
-            ret.IsAuthenticated = true;
-            ret.BearerToken = BuildJwtToken(ret);
+           
             List<ClaimUser> list =
               new List<ClaimUser>();
 
@@ -67,19 +61,15 @@ namespace AFM_Project.Models
 
             return list;
         }
-
        
-        protected AppUserAuth
-          BuildUserAuthObject(MetaCustomer authUser)
+        protected AppUserAuth BuildUserAuthObject(MetaCustomer authUser)
         {
             AppUserAuth ret = new AppUserAuth();
-            List<ClaimUser> claims =
-              new List<ClaimUser>();
+            List<ClaimUser> claims = new List<ClaimUser>();
 
             // Set User Properties
             ret.UserName = authUser.WebUserName;
-            ret.IsAuthenticated = true;
-            ret.BearerToken = BuildJwtToken(ret);
+            ret.IsAuthenticated = true;           
             ret.IdMetaUser = authUser.IdMetaCustomer;
           
             // Get all claims for this user
@@ -98,37 +88,33 @@ namespace AFM_Project.Models
                     case nameof(ret.IsUser):
                         ret.IsUser = Convert.ToBoolean(claim.ClaimValue);
                         break;
-                }                   
-            }    
-            
+                }
+                Console.WriteLine(claim);
+            }
+
+            ret.BearerToken = BuildJwtToken(ret);
+
             return ret;
         }
 
-
-
         protected string BuildJwtToken(AppUserAuth authUser)
         {
-            SymmetricSecurityKey key =
-              new SymmetricSecurityKey(
+            SymmetricSecurityKey key =  new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(settings.Key));
             List<Claim> jwtClaims = new List<Claim>();
 
             // Create standard JWT claims
-            jwtClaims.Add(new Claim(
-                JwtRegisteredClaimNames.Sub,
-                authUser.UserName));
-            jwtClaims.Add(new Claim(
-                JwtRegisteredClaimNames.Jti,
-                Guid.NewGuid().ToString()));
+            jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Sub,authUser.UserName));
+            jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()));
 
             // Add custom claims
-            jwtClaims.Add(new Claim("isAuthenticated",
+            jwtClaims.Add(new Claim("IsAuthenticated",
                 authUser.IsAuthenticated.ToString()
                   .ToLower()));
-            jwtClaims.Add(new Claim("isAdmin",
+            jwtClaims.Add(new Claim("IsAdmin",
                 authUser.IsAdmin.ToString()
                   .ToLower()));
-            jwtClaims.Add(new Claim("isUser",
+            jwtClaims.Add(new Claim("IsUser",
                authUser.IsUser.ToString()
                  .ToLower()));
 

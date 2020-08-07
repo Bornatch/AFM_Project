@@ -1,0 +1,123 @@
+Structure du dossier pour le volume Windows
+Le num‚ro de s‚rie du volume est C05F-FB4D
+C:.
+|   index.html
+|   karma.conf.js
+|   main.ts
+|   polyfills.ts
+|   srcTree.txt
+|   src_tree.txt
+|   styles.scss
+|   test.ts
+|   tsconfig.app.json
+|   tsconfig.server.json
+|   tsconfig.spec.json
+|   tslint.json
+|   
++---app
+|   |   api.service.spec.ts
+|   |   api.service.ts
+|   |   app-routing.module.ts
+|   |   app.component.html
+|   |   app.component.ts
+|   |   app.module.ts
+|   |   app.server.module.ts
+|   |   
+|   +---layouts
+|   |   \---default
+|   |           default.component.html
+|   |           default.component.scss
+|   |           default.component.spec.ts
+|   |           default.component.ts
+|   |           default.module.ts
+|   |           
+|   +---modules
+|   |   +---admin-dashboard
+|   |   |       admin-dashboard.component.html
+|   |   |       admin-dashboard.component.scss
+|   |   |       admin-dashboard.component.spec.ts
+|   |   |       admin-dashboard.component.ts
+|   |   |       
+|   |   +---pages
+|   |   |       pages.component.html
+|   |   |       pages.component.scss
+|   |   |       pages.component.spec.ts
+|   |   |       pages.component.ts
+|   |   |       
+|   |   \---statistics-pages
+|   |           statistics-pages.component.html
+|   |           statistics-pages.component.scss
+|   |           statistics-pages.component.spec.ts
+|   |           statistics-pages.component.ts
+|   |           
+|   \---shared
+|       |   shared.module.ts
+|       |   shared.service.spec.ts
+|       |   shared.service.ts
+|       |   
+|       +---components
+|       |   +---footer
+|       |   |       footer.component.html
+|       |   |       footer.component.scss
+|       |   |       footer.component.spec.ts
+|       |   |       footer.component.ts
+|       |   |       
+|       |   +---header
+|       |   |       header.component.html
+|       |   |       header.component.scss
+|       |   |       header.component.spec.ts
+|       |   |       header.component.ts
+|       |   |       
+|       |   +---security
+|       |   |   |   app-user-auth.ts
+|       |   |   |   app-user.ts
+|       |   |   |   auth.guard.spec.ts
+|       |   |   |   auth.guard.ts
+|       |   |   |   login.component.html
+|       |   |   |   login.component.scss
+|       |   |   |   login.component.spec.ts
+|       |   |   |   login.component.ts
+|       |   |   |   security.service.spec.ts
+|       |   |   |   security.service.ts
+|       |   |   |   
+|       |   |   \---http-interceptor
+|       |   |           http-interceptor.module.ts
+|       |   |           
+|       |   \---sidebar
+|       |           sidebar.component.html
+|       |           sidebar.component.scss
+|       |           sidebar.component.spec.ts
+|       |           sidebar.component.ts
+|       |           
+|       \---widgets
+|           +---performences
+|           |       performences.component.html
+|           |       performences.component.scss
+|           |       performences.component.spec.ts
+|           |       performences.component.ts
+|           |       
+|           +---performences-index
+|           |       performences-index.component.html
+|           |       performences-index.component.scss
+|           |       performences-index.component.spec.ts
+|           |       performences-index.component.ts
+|           |       
+|           +---quotes-histories
+|           |       quotes-histories.component.html
+|           |       quotes-histories.component.scss
+|           |       quotes-histories.component.spec.ts
+|           |       quotes-histories.component.ts
+|           |       
+|           \---statistic
+|                   statistic.component.html
+|                   statistic.component.scss
+|                   statistic.component.spec.ts
+|                   statistic.component.ts
+|                   
++---assets
+|       .gitkeep
+|       
+\---environments
+        environment.prod.ts
+        environment.ts
+        

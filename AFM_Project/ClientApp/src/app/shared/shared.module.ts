@@ -7,7 +7,8 @@ import { LoginComponent } from './components/security/login.component'
 import { MatAutocompleteModule, MatInputModule, 
   MatDividerModule, MatToolbarModule, MatIconModule, 
   MatButtonModule, MatMenuModule, MatListModule,
- MatCheckboxModule, MatRadioModule, MatTableModule} from '@angular/material';
+  MatCheckboxModule, MatRadioModule, MatTableModule,
+  MatGridListModule,} from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -46,6 +47,7 @@ import { StatisticComponent } from './widgets/statistic/statistic.component';
     MatCheckboxModule,
     MatRadioModule,
     MatTableModule,
+    MatGridListModule,
     HighchartsChartModule
   ],
   exports: [

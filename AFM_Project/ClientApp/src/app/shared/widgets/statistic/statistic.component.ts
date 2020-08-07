@@ -20,7 +20,6 @@ export class StatisticComponent implements OnInit {
   username = [];
 
 
-
   constructor(private apiService: ApiService,
     private _securityService: SecurityService) {
     this._securityService.messageSecurity
@@ -30,12 +29,22 @@ export class StatisticComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.securityObject.isAdmin) {
+      this.apiService.getAllPortfolioStat()
+        .subscribe(result => {
+          this.tradedDatas = result;
+          this.setData();
+        }
+          , error => console.error(error))
+      }
+    if (this.securityObject.isUser) {
     this.apiService.getUserPortfolioStat(this.securityObject.idMetaUser)
       .subscribe(result => {
         this.tradedDatas = result;
         this.setData();
       }
         , error => console.error(error))
+    }
     this.setData();
   }
 
@@ -73,15 +82,12 @@ export class StatisticComponent implements OnInit {
       }
     }
     
-    for (let index = 0; index < this.portfoliosData.length; index++) {
-      
-        this.username[index].push(this.portfoliosData[index])
-      
+    for (let index = 0; index < this.portfoliosData.length; index++) {      
+        this.username[index].push(this.portfoliosData[index]) 
+        
       
     }
 
-    console.log(this.username)
-    console.log(this.portfoliosData)
   }
 
 }

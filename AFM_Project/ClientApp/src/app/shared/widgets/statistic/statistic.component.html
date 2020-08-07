@@ -1,4 +1,17 @@
-<p>statistic works!</p>
+<mat-grid-list cols="3" rowHeight="2:1">
+    <mat-grid-tile>
+        <div *ngFor="let elem of portfoliosData[0]">
+            <p>{{elem}}</p>
+        </div>
+    </mat-grid-tile>
+    <mat-grid-tile>2</mat-grid-tile>
+    <mat-grid-tile>3</mat-grid-tile>
+    <mat-grid-tile>4</mat-grid-tile>
+    <mat-grid-tile>5</mat-grid-tile>
+    <mat-grid-tile>6</mat-grid-tile>
+</mat-grid-list>
+
+
 <!--<div>
     <table mat-table [dataSource]="portfoliosData[0]" class="mat-elevation-z8">
         <ng-container matColumnDef="position">

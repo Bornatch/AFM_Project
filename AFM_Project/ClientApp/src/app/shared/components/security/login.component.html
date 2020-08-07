@@ -1,20 +1,11 @@
-<div class="row">
-    <div class="col-xs-12">
-      <div class="alert alert-danger" 
-      *ngIf="securityObject &&
-             !securityObject.isAuthenticated">
-        <p>Invalid User Name/Password.</p>
-      </div>
+<div class="row" *ngIf="tryLog">
+  <div class="col-xs-12">
+    <div class="alert alert-danger" >
+      <p >Mot de passe ou nom d'utilisateur invalide</p>
     </div>
   </div>
-  
-  <!-- TEMPORARY CODE TO VIEW SECURITY OBJECT -->
-  <div class="row">
-    <div class="col-xs-12">
-      <label>{{securityObject | json}}</label>
-    </div>
-  </div>
-  
+</div>
+
   <form>
     <div class="row">
       <div class="col-xs-12 col-sm-6">

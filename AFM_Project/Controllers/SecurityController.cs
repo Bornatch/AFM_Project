@@ -32,14 +32,13 @@ namespace AFM_Project.Controllers
 
             if (auth.IsAuthenticated)
             {
-                ret = StatusCode(StatusCodes.Status200OK,
-                                 auth);
+                ret = StatusCode(StatusCodes.Status200OK, auth);
             }
             else
             {
                 ret = StatusCode(
                        StatusCodes.Status404NotFound,
-                       "Invalid User Name/Password.");
+                       "Invalid User Name/Password.");            
             }
 
             return ret;

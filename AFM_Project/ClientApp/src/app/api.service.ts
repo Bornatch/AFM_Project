@@ -24,13 +24,22 @@ export class ApiService {
   }
 
   //performences portfolio
+  //USER
   public GetUserPortfolio(idMetaUser : string) {
     return this.httpClient.get<IPortfolio[]>('api/Eoddatas/getUserPortfolioPerf/' + idMetaUser)
   }
-
   public GetUserPortfoliosName(idMetaUser : string) {
     return this.httpClient.get<IPortfolioName[]>('api/Customers/' + idMetaUser );
   }
+  //SUPERUSER
+  public GetAllPortfolio() {
+    return this.httpClient.get<IPortfolio[]>('api/Eoddatas/getAllPortfolioPerf/')
+  }
+  public GetAllPortfoliosName() {
+    return this.httpClient.get<IPortfolioName[]>('api/Customers/');
+  }
+
+  
 
   //performences Index
   public GetEodIndexes() {
@@ -38,10 +47,14 @@ export class ApiService {
   }
 
   // Statistics
+  //USER
   public getUserPortfolioStat(idMetaUser : string) {
     return this.httpClient.get<ITradedStats[]>('api/NewTrades/getUserPortfolioStat/'+ idMetaUser)
   }
-
+  //SUPERUSER
+  public getAllPortfolioStat() {
+    return this.httpClient.get<ITradedStats[]>('api/NewTrades/getAllPortfolioStat/')
+  }
 }
 
 interface ISecurities {

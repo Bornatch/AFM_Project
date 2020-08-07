@@ -48,6 +48,8 @@ export class SecurityService {
     this.securityObject.bearerToken = "";
     this.securityObject.isAuthenticated = false;
     this.securityObject.isAdmin = false;
+    this.securityObject.idMetaUser = "";
+    this.securityObject.isUser = false;
     localStorage.removeItem("bearerToken");
   }
 }

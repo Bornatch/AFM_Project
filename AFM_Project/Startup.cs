@@ -10,6 +10,7 @@ using AFM_Project.Models;
 using System;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Newtonsoft.Json.Serialization;
 
 namespace AFM_Project
 {
@@ -33,8 +34,8 @@ namespace AFM_Project
 
             // Register Jwt as the Authentication service
             services.AddAuthentication(opt => {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultAuthenticateScheme = "JwtBearer";
+                opt.DefaultChallengeScheme = "JwtBearer";
             })
 
              .AddJwtBearer("JwtBearer", jwtBearerOptions =>
@@ -62,12 +63,19 @@ namespace AFM_Project
 
             services.AddDbContext<SeilernContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SeilernDB")));
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddCors();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,6 +100,11 @@ namespace AFM_Project
             }
 
             app.UseRouting();
+
+            app.UseCors(
+                options => options.WithOrigins(
+                  "http://localhost:4200").AllowAnyMethod().AllowAnyHeader()
+              );
 
             //ajout auth            
             app.UseAuthentication();

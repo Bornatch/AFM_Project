@@ -21,14 +21,7 @@ namespace AFM_Project.Controllers
             _context = context;
         }
 
-        // GET: api/Customers
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomer()
-        {
-            return await _context.Customer.ToListAsync();
-        }
-
-        // GET: api/Customers/5
+        //USER
         [HttpGet("{idMeta}")]
         public async Task<ActionResult<IEnumerable<Object>>> GetCustomerOfMeta(Guid idMeta)
         {
@@ -41,6 +34,21 @@ namespace AFM_Project.Controllers
                 .Where( m =>  m.IdMetaCustomer == idMeta.ToString())
                 .ToListAsync();
         }
+
+        //SUPERUSER
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Object>>> GetCustomer()
+        {
+             return await _context.Customer
+                .Select(c => new {
+                    username = c.UserName,
+                    portfolioname = c.AccountNick,
+                    IdMetaCustomer = c.IdMetaCustomer.ToString()
+                })                
+                .ToListAsync();
+        }
+
+        /*  
 
         // PUT: api/Customers/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -106,5 +114,6 @@ namespace AFM_Project.Controllers
         {
             return _context.Customer.Any(e => e.IdCustomer == id);
         }
+        */
     }
 }

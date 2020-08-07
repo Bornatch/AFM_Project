@@ -1,0 +1,122 @@
+Structure du dossier pour le volume Windows
+Le num‚ro de s‚rie du volume est C05F-FB4D
+C:.
+³   index.html
+³   karma.conf.js
+³   main.ts
+³   polyfills.ts
+³   src_tree.txt
+³   styles.scss
+³   test.ts
+³   tsconfig.app.json
+³   tsconfig.server.json
+³   tsconfig.spec.json
+³   tslint.json
+³   
+ÃÄÄÄapp
+³   ³   api.service.spec.ts
+³   ³   api.service.ts
+³   ³   app-routing.module.ts
+³   ³   app.component.html
+³   ³   app.component.ts
+³   ³   app.module.ts
+³   ³   app.server.module.ts
+³   ³   
+³   ÃÄÄÄlayouts
+³   ³   ÀÄÄÄdefault
+³   ³           default.component.html
+³   ³           default.component.scss
+³   ³           default.component.spec.ts
+³   ³           default.component.ts
+³   ³           default.module.ts
+³   ³           
+³   ÃÄÄÄmodules
+³   ³   ÃÄÄÄadmin-dashboard
+³   ³   ³       admin-dashboard.component.html
+³   ³   ³       admin-dashboard.component.scss
+³   ³   ³       admin-dashboard.component.spec.ts
+³   ³   ³       admin-dashboard.component.ts
+³   ³   ³       
+³   ³   ÃÄÄÄpages
+³   ³   ³       pages.component.html
+³   ³   ³       pages.component.scss
+³   ³   ³       pages.component.spec.ts
+³   ³   ³       pages.component.ts
+³   ³   ³       
+³   ³   ÀÄÄÄstatistics-pages
+³   ³           statistics-pages.component.html
+³   ³           statistics-pages.component.scss
+³   ³           statistics-pages.component.spec.ts
+³   ³           statistics-pages.component.ts
+³   ³           
+³   ÀÄÄÄshared
+³       ³   shared.module.ts
+³       ³   shared.service.spec.ts
+³       ³   shared.service.ts
+³       ³   
+³       ÃÄÄÄcomponents
+³       ³   ÃÄÄÄfooter
+³       ³   ³       footer.component.html
+³       ³   ³       footer.component.scss
+³       ³   ³       footer.component.spec.ts
+³       ³   ³       footer.component.ts
+³       ³   ³       
+³       ³   ÃÄÄÄheader
+³       ³   ³       header.component.html
+³       ³   ³       header.component.scss
+³       ³   ³       header.component.spec.ts
+³       ³   ³       header.component.ts
+³       ³   ³       
+³       ³   ÃÄÄÄsecurity
+³       ³   ³   ³   app-user-auth.ts
+³       ³   ³   ³   app-user.ts
+³       ³   ³   ³   auth.guard.spec.ts
+³       ³   ³   ³   auth.guard.ts
+³       ³   ³   ³   login.component.html
+³       ³   ³   ³   login.component.scss
+³       ³   ³   ³   login.component.spec.ts
+³       ³   ³   ³   login.component.ts
+³       ³   ³   ³   security.service.spec.ts
+³       ³   ³   ³   security.service.ts
+³       ³   ³   ³   
+³       ³   ³   ÀÄÄÄhttp-interceptor
+³       ³   ³           http-interceptor.module.ts
+³       ³   ³           
+³       ³   ÀÄÄÄsidebar
+³       ³           sidebar.component.html
+³       ³           sidebar.component.scss
+³       ³           sidebar.component.spec.ts
+³       ³           sidebar.component.ts
+³       ³           
+³       ÀÄÄÄwidgets
+³           ÃÄÄÄperformences
+³           ³       performences.component.html
+³           ³       performences.component.scss
+³           ³       performences.component.spec.ts
+³           ³       performences.component.ts
+³           ³       
+³           ÃÄÄÄperformences-index
+³           ³       performences-index.component.html
+³           ³       performences-index.component.scss
+³           ³       performences-index.component.spec.ts
+³           ³       performences-index.component.ts
+³           ³       
+³           ÃÄÄÄquotes-histories
+³           ³       quotes-histories.component.html
+³           ³       quotes-histories.component.scss
+³           ³       quotes-histories.component.spec.ts
+³           ³       quotes-histories.component.ts
+³           ³       
+³           ÀÄÄÄstatistic
+³                   statistic.component.html
+³                   statistic.component.scss
+³                   statistic.component.spec.ts
+³                   statistic.component.ts
+³                   
+ÃÄÄÄassets
+³       .gitkeep
+³       
+ÀÄÄÄenvironments
+        environment.prod.ts
+        environment.ts
+        

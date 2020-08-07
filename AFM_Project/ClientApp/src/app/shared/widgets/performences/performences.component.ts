@@ -10,6 +10,7 @@ import { ThemePalette } from '@angular/material';
   templateUrl: './performences.component.html',
   styleUrls: ['./performences.component.scss']
 })
+
 export class PerformencesComponent implements OnChanges {
 
   //Chart info
@@ -34,6 +35,7 @@ export class PerformencesComponent implements OnChanges {
 
   //get user
   securityObject: AppUserAuth;
+  
   constructor(
     private apiService: ApiService,
     private _securityService: SecurityService) {
@@ -49,20 +51,80 @@ export class PerformencesComponent implements OnChanges {
 
   ngOnInit() {
     if (this.securityObject.isAdmin) {
-      //api avec tout
+      //supeuser      
     }
     if (this.securityObject.isUser) {
-      this.apiService.GetUserPortfoliosName(this.securityObject.idMetaUser).subscribe(result => {
-        this.portfoliosName = result
-        this.setCheckboxSubtask();
-      }, error => console.error(error))
+      //user
+      this.userData();
     }
-    // build chart
-    this.success();
+  }
+
+  private userData() {
+    this.apiService.GetUserPortfolio(this.securityObject.idMetaUser).subscribe(result => {
+      this.portfolios = result;
+      this.setData();
+    }, error => console.error(error));
+    this.apiService.GetUserPortfoliosName(this.securityObject.idMetaUser).subscribe(result => {
+      this.portfoliosName = result
+      this.setCheckboxSubtask();
+    }, error => console.error(error))
+  }
+
+  private adminData() {
+    this.apiService.GetAllPortfolio().subscribe(result => {
+      this.portfolios = result;
+      this.setData();
+    }, error => console.error(error));
+    this.apiService.GetAllPortfoliosName().subscribe(result => {
+      this.portfoliosName = result
+      this.setCheckboxSubtask();
+    }, error => console.error(error))
+  }
+
+  
+ 
+
+  setData() {
+    //loop sur les valeurs de tous les portefeuilles du client final
+    for (let index = 0; index < this.portfolios.length; index++) {
+      //sortir les valeurs à 0 ....
+      if (this.portfolios[index].value != 0) {
+        //pour chaque valeur, créer une liste dans arryPortfolio pour isoler chaque portefeuile
+        for (let i = 0; i < this.portfoliosName.length; i++) {
+          if (this.portfolios[index].portfolioName == this.portfoliosName[i].portfolioname) {
+            this.arrayPortfolio[i].push(
+              [
+                new Date(this.portfolios[index].dateStamp).getTime(),
+                this.portfolios[index].value
+              ])
+          }
+        }
+      }
+    }
+    this.addValueToChart();
+  }
+
+  addValueToChart() {
+    //clear data
+    this.seriesOptions = []
+    // mise des données triées dane les series options pour Highcharts
+    for (let index = 0; index < this.arrayPortfolio.length; index++) {      
+      if (this.subtasks[index].completed) {
+        this.seriesOptions[index] = {
+          name: this.portfoliosName[index].username,
+          data: this.arrayPortfolio[index]
+        }        
+      }
+    }
+    this.setChart();
+  }
+
+  updateAllComplete() {
+    this.allComplete = this.task.subtasks != null && this.task.subtasks.every(t => t.completed);
+    this.addValueToChart();
   }
 
   setChart() {
-    console.log("appel de set chart...")
     //Chart
     this.chartOptions = {
       rangeSelector: {
@@ -93,58 +155,9 @@ export class PerformencesComponent implements OnChanges {
       },
       series: this.seriesOptions
     };
-    console.log(this.chartOptions)
+    //console.log(this.chartOptions)
   }
 
-  private success() {
-    this.apiService.GetUserPortfolio(this.securityObject.idMetaUser).subscribe(result => {
-      this.portfolios = result;
-      this.setData();
-    }, error => console.error(error))
-
-  }
-
-  setData() {
-    //loop sur les valeurs de tous les portefeuilles du client final
-    for (let index = 0; index < this.portfolios.length; index++) {
-      //sortir les valeurs à 0 ....
-      if (this.portfolios[index].value != 0) {
-        //pour chaque valeur, créer une liste dans arryPortfolio pour isoler chaque portefeuile
-        for (let i = 0; i < this.portfoliosName.length; i++) {
-          if (this.portfolios[index].portfolioName == this.portfoliosName[i].portfolioname) {
-            this.arrayPortfolio[i].push(
-              [
-                new Date(this.portfolios[index].dateStamp).getTime(),
-                this.portfolios[index].value
-              ])
-          }
-        }
-      }
-    }
-    this.addValueToChart();
-  }
-
-  addValueToChart() {
-    console.log("appel de addvalue...")
-    //clear data
-    this.seriesOptions = []
-    // mise des données triées dane les series options pour Highcharts
-    for (let index = 0; index < this.arrayPortfolio.length; index++) {      
-      if (this.subtasks[index].completed) {
-        this.seriesOptions[index] = {
-          name: this.portfoliosName[index].username,
-          data: this.arrayPortfolio[index]
-        }        
-      }
-    }
-    console.log(this.seriesOptions)
-    this.setChart();
-  }
-
-  updateAllComplete() {
-    this.allComplete = this.task.subtasks != null && this.task.subtasks.every(t => t.completed);
-    this.addValueToChart();
-  }
 
   //checkbox
   setTask() {

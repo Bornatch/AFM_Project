@@ -22,42 +22,33 @@ namespace AFM_Project.Controllers
             _context = context;
         }
 
-        // GET: api/Eoddatas
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Eoddata>>> GetEoddata()
+//USER
+[HttpGet("getUserPortfolioPerf/{id_meta}")]
+public async Task<ActionResult<IEnumerable<Object>>> getPortfolioPerf(Guid id_meta)
+{                      
+    return await _context.Eoddata
+        .Join(
+            _context.Customer                    
+            .Where(cus => cus.IdMetaCustomer == id_meta),                    
+            eodData => eodData.IdCustomer,
+            customer => customer.IdCustomer,
+            (eodData, customer) => new { 
+                portfolioName = customer.AccountNick,
+                dateStamp = eodData.DateStamp,
+                value = eodData.Portfolio
+            })                
+        .ToListAsync();
+}
+       
+        //SUPERUSER
+        [HttpGet("getAllPortfolioPerf")]
+        public async Task<ActionResult<IEnumerable<Object>>> getAllPortfolioPerf()
         {
-            return await _context.Eoddata.ToListAsync();
-        }        
 
-        // GET: api/Eoddatas
-        [HttpGet("getUserPortfolioPerf/{id_meta}")]
-        public async Task<ActionResult<IEnumerable<Object>>> getPortfolioPerf(Guid id_meta)
-        {
-            
             //return await _context.Eoddata.ToListAsync();
             return await _context.Eoddata
                 .Join(
-                    _context.Customer                    
-                    .Where(cus => cus.IdMetaCustomer == id_meta),                    
-                    eodData => eodData.IdCustomer,
-                    customer => customer.IdCustomer,
-                    (eodData, customer) => new { 
-                        portfolioName = customer.AccountNick,
-                        dateStamp = eodData.DateStamp,
-                        value = eodData.Portfolio
-                    })                
-                .ToListAsync();
-        }
-
-        // GET: api/Eoddatas
-        [HttpGet("getUserPortfolioPerf/{id_meta}/portfolios")]
-        public async Task<ActionResult<IEnumerable<Object>>> getPortfoliosName(Guid id_meta)
-        {
-            //return await _context.Eoddata.ToListAsync();
-            return await _context.Eoddata
-                .Join(
-                    _context.Customer
-                    .Where(cus => cus.IdMetaCustomer == id_meta),
+                    _context.Customer,
                     eodData => eodData.IdCustomer,
                     customer => customer.IdCustomer,
                     (eodData, customer) => new {
@@ -66,21 +57,6 @@ namespace AFM_Project.Controllers
                         value = eodData.Portfolio
                     })
                 .ToListAsync();
-        }
-
-
-        // GET: api/Eoddatas/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Eoddata>> GetEoddata(int id)
-        {
-            var eoddata = await _context.Eoddata.FindAsync(id);
-
-            if (eoddata == null)
-            {
-                return NotFound();
-            }
-
-            return eoddata;
         }
 
         private bool EoddataExists(int id)
